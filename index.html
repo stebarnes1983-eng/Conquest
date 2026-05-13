@@ -356,6 +356,41 @@
       background:rgba(200,245,31,.08);
     }
 
+
+    .trophy-card.locked{
+      opacity:.58;
+      filter:grayscale(1) brightness(.62) saturate(.25);
+    }
+    .trophy-card.locked .trophy-art{
+      opacity:.72;
+      filter:grayscale(1) brightness(.65);
+    }
+    .trophy-card:not(.locked){
+      border-color:rgba(200,245,31,.35);
+      box-shadow:0 0 26px rgba(200,245,31,.18), 0 18px 36px rgba(0,0,0,.32);
+    }
+    .trophy-card:not(.locked) .trophy-art{
+      filter:none;
+      opacity:1;
+    }
+    .trophy-card:not(.locked)::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:24px;
+      pointer-events:none;
+      background:radial-gradient(circle at 75% 15%, rgba(200,245,31,.22), transparent 34%);
+    }
+    .trophy-empty-warning{
+      padding:14px;
+      border-radius:18px;
+      border:1px dashed rgba(200,245,31,.22);
+      color:var(--muted);
+      background:rgba(200,245,31,.05);
+      font-size:13px;
+      line-height:1.4;
+    }
+
   </style>
 </head>
 <body>
@@ -514,7 +549,7 @@
           <h3>Step Trophies</h3>
           <p>Unlock each trophy by completing its badge group.</p>
         </div>
-        <div class="trophy-grid" id="stepTrophies"></div>
+        <div class="trophy-grid" id="stepTrophies"><div class="trophy-empty-warning">Loading step trophies...</div></div>
       </div>
 
       <div id="achievementBadgesPanel" class="achievement-panel">
@@ -598,9 +633,30 @@
   </nav>
 
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js">
+function safeRenderStepAchievementsSoon(){
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 250);
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 1000);
+}
+document.addEventListener("DOMContentLoaded", safeRenderStepAchievementsSoon);
+
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js">
+function safeRenderStepAchievementsSoon(){
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 250);
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 1000);
+}
+document.addEventListener("DOMContentLoaded", safeRenderStepAchievementsSoon);
+
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js">
+function safeRenderStepAchievementsSoon(){
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 250);
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 1000);
+}
+document.addEventListener("DOMContentLoaded", safeRenderStepAchievementsSoon);
+
+</script>
 
 <script>
 
@@ -742,6 +798,9 @@ function showAchievementsTab(tab){
   if(trophyTab) trophyTab.classList.toggle("active", tab==="trophies");
   if(badgesTab) badgesTab.classList.toggle("active", tab==="badges");
 }
+function achievementIcon(name){
+  return (typeof ACHIEVEMENT_IMAGES !== "undefined" && ACHIEVEMENT_IMAGES[name]) ? ACHIEVEMENT_IMAGES[name] : "";
+}
 function renderStepAchievements(){
   const total = getTotalSteps();
   const unlocked = unlockedStepBadges();
@@ -764,7 +823,7 @@ function renderStepAchievements(){
       const done = total >= b.steps;
       const pctDone = Math.min(100, Math.round(total / b.steps * 100));
       return `<div class="step-badge-card ${done?"":"locked"}">
-        <div class="badge-art"><img src="${ACHIEVEMENT_IMAGES[b.icon]}" alt="${b.name} badge"></div>
+        <div class="badge-art"><img src="${achievementIcon(b.icon)}" alt="${b.name} badge"></div>
         <div class="badge-body">
           <div class="badge-row">
             <div><span class="tag">#${i+1} · Steps</span><h4>${b.name}</h4></div>
@@ -781,12 +840,16 @@ function renderStepAchievements(){
 
   const trophyWrap=document.getElementById("stepTrophies");
   if(trophyWrap){
+    if(!STEP_TROPHIES || !STEP_TROPHIES.length){
+      trophyWrap.innerHTML = `<div class="trophy-empty-warning">No trophies found yet.</div>`;
+      return;
+    }
     trophyWrap.innerHTML = STEP_TROPHIES.map(t=>{
       const group = STEP_BADGES.slice(t.from, t.to+1);
       const done = isTrophyUnlocked(t);
       const doneCount = group.filter(b => unlockedIds.has(b.id)).length;
       return `<div class="trophy-card ${done?"":"locked"}">
-        <div class="trophy-art"><img src="${ACHIEVEMENT_IMAGES[t.icon]}" alt="${t.tier} trophy"></div>
+        <div class="trophy-art"><img src="${achievementIcon(t.icon)}" alt="${t.tier} trophy"></div>
         <div class="trophy-body">
           <div class="trophy-row">
             <div><span class="tag">${t.tier} Trophy</span><h4>${t.name}</h4></div>
@@ -1176,7 +1239,7 @@ function render(){
  if(document.getElementById("typeChart")) barChart("typeChart",group(activities,a=>a.type,a=>a.distance));
  if(document.getElementById("companyChart")) barChart("companyChart",group(medals,m=>m.company));
 
- renderBadges();
+ renderBadges(); renderStepAchievements();
  renderLibrary();
  renderHomeDashboard();
 }
@@ -1230,6 +1293,13 @@ if(firebaseConfigured && auth){
   document.getElementById("mainApp").style.display="none";
   document.getElementById("bottomNav").style.display="none";
 }
+
+function safeRenderStepAchievementsSoon(){
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 250);
+  setTimeout(()=>{ try{ renderStepAchievements(); }catch(e){ console.error("Step achievements render failed", e); } }, 1000);
+}
+document.addEventListener("DOMContentLoaded", safeRenderStepAchievementsSoon);
+
 </script>
 </body>
 </html>
