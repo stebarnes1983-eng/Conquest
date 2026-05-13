@@ -667,8 +667,8 @@
       width:68%;
       height:23%;
       border-radius:0 0 30px 30px;
-      background:rgba(0,0,0,.68);
-      box-shadow:0 10px 18px rgba(0,0,0,.42);
+      background:rgba(0,0,0,.26);
+      box-shadow:0 8px 14px rgba(0,0,0,.28);
       opacity:1;
       transition:.35s ease;
     }
@@ -679,15 +679,15 @@
       top:17%;
       bottom:0;
       border-radius:18px;
-      background:linear-gradient(180deg, rgba(5,9,14,.58), rgba(5,9,14,.68) 55%, rgba(5,9,14,.78));
-      backdrop-filter:grayscale(1) brightness(.55);
+      background:linear-gradient(180deg, rgba(5,9,14,.18), rgba(5,9,14,.24) 55%, rgba(5,9,14,.30));
+      backdrop-filter:grayscale(.55) brightness(.82);
       opacity:1;
       transition:.35s ease;
     }
     .cabinet-hotspot .shine{
       position:absolute;
       left:2%; right:2%; top:10%; bottom:8%;
-      background:radial-gradient(ellipse at top, rgba(220,255,120,.42), rgba(200,245,31,.10) 38%, transparent 70%);
+      background:radial-gradient(ellipse at top, rgba(220,255,120,.52), rgba(200,245,31,.18) 38%, transparent 72%);
       opacity:0;
       transition:.35s ease;
       filter:blur(2px);
@@ -700,6 +700,22 @@
       color:var(--muted);
       font-size:14px;
       margin:12px 0 2px;
+    }
+
+  
+    .step-cabinet-image{
+      filter:brightness(1.18) contrast(1.05) saturate(1.08) !important;
+    }
+    .cabinet-hotspot .lamp-mask{
+      background:rgba(0,0,0,.24) !important;
+      box-shadow:0 8px 14px rgba(0,0,0,.25) !important;
+    }
+    .cabinet-hotspot .trophy-mask{
+      background:linear-gradient(180deg, rgba(5,9,14,.14), rgba(5,9,14,.20) 55%, rgba(5,9,14,.26)) !important;
+      backdrop-filter:grayscale(.45) brightness(.88) !important;
+    }
+    .cabinet-hotspot .shine{
+      background:radial-gradient(ellipse at top, rgba(220,255,120,.55), rgba(200,245,31,.20) 38%, transparent 72%) !important;
     }
 
   </style>
