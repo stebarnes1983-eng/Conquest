@@ -800,6 +800,77 @@
       mix-blend-mode:screen;
     }
 
+  
+    /* Softer, more natural lamp spotlight test */
+    .cabinet-hotspot .shine{
+      left:0% !important;
+      right:0% !important;
+      top:9% !important;
+      bottom:1% !important;
+      opacity:0 !important;
+      filter:blur(5px) !important;
+      mix-blend-mode:screen !important;
+      clip-path:polygon(46% 0%, 54% 0%, 76% 100%, 24% 100%) !important;
+      background:
+        radial-gradient(ellipse at 50% 2%, rgba(255,244,205,.92), rgba(255,229,160,.38) 12%, rgba(255,220,145,.12) 26%, transparent 42%),
+        linear-gradient(180deg,
+          rgba(255,238,190,.40) 0%,
+          rgba(255,230,170,.25) 22%,
+          rgba(255,220,150,.14) 48%,
+          rgba(255,210,120,.06) 74%,
+          transparent 100%) !important;
+    }
+
+    .cabinet-hotspot.unlocked .shine{
+      opacity:.78 !important;
+    }
+
+    .cabinet-hotspot.unlocked::before{
+      content:"";
+      position:absolute;
+      left:30%;
+      right:30%;
+      top:9%;
+      height:7%;
+      border-radius:999px;
+      background:rgba(255,244,210,.95);
+      box-shadow:
+        0 0 9px rgba(255,244,210,.9),
+        0 0 22px rgba(255,224,160,.55),
+        0 0 38px rgba(255,210,120,.26);
+      pointer-events:none;
+      z-index:3;
+      mix-blend-mode:screen;
+    }
+
+    .cabinet-hotspot.unlocked::after{
+      content:"";
+      position:absolute;
+      left:18%;
+      right:18%;
+      bottom:3%;
+      height:22%;
+      background:radial-gradient(ellipse at center, rgba(255,224,155,.16), transparent 72%);
+      opacity:.85;
+      filter:blur(4px);
+      pointer-events:none;
+      mix-blend-mode:screen;
+    }
+
+    .cabinet-hotspot.unlocked .lamp-mask{
+      background:rgba(0,0,0,.03) !important;
+      box-shadow:
+        0 0 14px rgba(255,238,185,.25),
+        0 8px 18px rgba(0,0,0,.22) !important;
+    }
+
+    .cabinet-hotspot.unlocked .lamp-mask::after{
+      background:rgba(255,244,205,.78) !important;
+      box-shadow:
+        0 0 8px rgba(255,244,205,.7),
+        0 0 18px rgba(255,226,150,.45) !important;
+    }
+
   </style>
 </head>
 <body>
