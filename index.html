@@ -201,6 +201,161 @@
     .empty-home h3{margin:0 0 6px}
     .empty-home p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
 
+
+    .achievement-tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin:12px 0;
+    }
+    .achievement-tab,.badge-category-tab{
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      border-radius:16px;
+      padding:12px;
+      font-weight:950;
+    }
+    .achievement-tab.active,.badge-category-tab.active{
+      background:var(--neon);
+      color:#06101d;
+      border:0;
+    }
+    .achievement-panel{display:none}
+    .achievement-panel.active{display:block}
+    .badge-category-tabs{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding:3px 0 12px;
+    }
+    .badge-category-tab{
+      min-width:92px;
+      white-space:nowrap;
+    }
+    .steps-summary{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin:12px 0;
+    }
+    .achievement-big-card{
+      border-radius:28px;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(200,245,31,.18), transparent 30%),
+        linear-gradient(135deg, rgba(15,27,49,.98), rgba(5,11,22,.98));
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:0 22px 55px rgba(0,0,0,.36);
+      padding:16px;
+      margin-bottom:12px;
+    }
+    .achievement-big-card h3{margin:0 0 6px;font-size:16px}
+    .achievement-big-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+    .steps-grid,.trophy-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+    .step-badge-card,.trophy-card{
+      border-radius:24px;
+      background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+      border:1px solid rgba(255,255,255,.07);
+      overflow:hidden;
+      box-shadow:0 14px 32px rgba(0,0,0,.24);
+      position:relative;
+    }
+    .step-badge-card.locked,.trophy-card.locked{filter:saturate(.45)}
+    .step-badge-card.locked .badge-art,.trophy-card.locked .trophy-art{
+      opacity:.42;
+      filter:grayscale(.75);
+    }
+    .badge-art{
+      height:230px;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.18);
+      overflow:hidden;
+    }
+    .badge-art img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:6px;
+    }
+    .badge-body,.trophy-body{padding:14px}
+    .badge-row,.trophy-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .badge-row h4,.trophy-row h4{
+      margin:0;
+      font-size:18px;
+      line-height:1.08;
+      letter-spacing:-.03em;
+    }
+    .xp-pill{
+      flex:0 0 auto;
+      border-radius:999px;
+      padding:7px 10px;
+      background:rgba(200,245,31,.12);
+      color:var(--neon);
+      font-size:12px;
+      font-weight:950;
+      border:1px solid rgba(200,245,31,.18);
+    }
+    .unlock-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:950;
+      margin-top:9px;
+      background:rgba(255,255,255,.06);
+      color:#dfe7f4;
+    }
+    .unlock-pill.unlocked{
+      background:rgba(200,245,31,.14);
+      color:var(--neon);
+    }
+    .trophy-art{
+      height:250px;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.16);
+      overflow:hidden;
+    }
+    .trophy-art img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:8px;
+    }
+    .mini-requirements{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .mini-req{
+      font-size:11px;
+      font-weight:850;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.035);
+      padding:6px 8px;
+      border-radius:999px;
+    }
+    .mini-req.done{
+      color:var(--neon);
+      border-color:rgba(200,245,31,.20);
+      background:rgba(200,245,31,.08);
+    }
+
   </style>
 </head>
 <body>
@@ -331,13 +486,62 @@
       <div class="card"><h3 style="margin-top:0">Companies</h3><div id="companyChart"></div></div>
     </section>
 
-    <section id="page-achievements" class="page">
-      <div class="greeting"><h2>Achievements</h2><p>Badges unlocked by your progress.</p></div>
-      <div class="card"><div style="font-size:42px;font-weight:950" id="achievementCount">0 / 6</div><p class="muted">Achievements unlocked</p><div class="progress"><span id="achievementBar" style="width:0%"></span></div></div>
-      <div class="grid3" id="badges"></div>
+        <section id="page-achievements" class="page">
+      <div class="greeting"><h2>Achievements</h2><p>Your trophy cabinet, milestone badges and XP rewards.</p></div>
+
+      <div class="achievement-big-card">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+          <div>
+            <h3>Total Achievement XP</h3>
+            <p>Earn XP by unlocking badges and trophies.</p>
+          </div>
+          <div style="font-size:32px;font-weight:950;color:var(--neon)" id="achievementXP">0 XP</div>
+        </div>
+        <div class="progress"><span id="achievementXPBar" style="width:0%"></span></div>
+      </div>
+
+      <div class="achievement-tabs">
+        <button class="achievement-tab active" id="achTrophyTab" onclick="showAchievementsTab('trophies')">🏆 Trophy Cabinet</button>
+        <button class="achievement-tab" id="achBadgesTab" onclick="showAchievementsTab('badges')">🏅 Badges</button>
+      </div>
+
+      <div id="achievementTrophyPanel" class="achievement-panel active">
+        <div class="section-title">
+          <h3>Trophy Cabinet</h3>
+          <a onclick="showAchievementsTab('badges')">View badges</a>
+        </div>
+        <div class="achievement-big-card">
+          <h3>Step Trophies</h3>
+          <p>Unlock each trophy by completing its badge group.</p>
+        </div>
+        <div class="trophy-grid" id="stepTrophies"></div>
+      </div>
+
+      <div id="achievementBadgesPanel" class="achievement-panel">
+        <div class="section-title"><h3>Badges</h3></div>
+
+        <div class="badge-category-tabs">
+          <button class="badge-category-tab active">👟 Steps</button>
+          <button class="badge-category-tab" style="opacity:.45">📏 Distance</button>
+          <button class="badge-category-tab" style="opacity:.45">🔥 Streaks</button>
+          <button class="badge-category-tab" style="opacity:.45">🏅 Medals</button>
+        </div>
+
+        <div class="steps-summary">
+          <div class="stat"><small>Total Steps</small><strong id="totalStepsStat">0</strong></div>
+          <div class="stat"><small>Step Badges</small><strong id="stepBadgesStat">0 / 17</strong></div>
+        </div>
+
+        <div class="achievement-big-card">
+          <h3>Steps Milestones</h3>
+          <p>Log activities with steps to unlock badges and earn XP.</p>
+        </div>
+
+        <div class="steps-grid" id="stepBadges"></div>
+      </div>
     </section>
 
-    <section id="page-detail" class="page">
+<section id="page-detail" class="page">
       <div id="detailContent"></div>
     </section>
 
@@ -387,10 +591,10 @@
 
   <nav class="bottom-nav" id="bottomNav" style="display:none">
     <button class="nav-btn active" data-page="home" onclick="showPage('home',this)"><div class="i">🏠</div>Home</button>
-    <button class="nav-btn" data-page="medals" onclick="showPage('medals',this)"><div class="i">🏆</div>Medals</button>
+    <button class="nav-btn" data-page="achievements" onclick="showPage('achievements',this)"><div class="i">🏆</div>Achievements</button>
     <button class="nav-btn" data-page="log" onclick="showPage('log',this)"><div class="i">👟</div>Log</button>
-    <button class="nav-btn" data-page="progress" onclick="showPage('progress',this)"><div class="i">📊</div>Stats</button>
-    <button class="nav-btn" data-page="achievements" onclick="showPage('achievements',this)"><div class="i">🏅</div>Badges</button>
+    <button class="nav-btn" data-page="progress" onclick="showPage('progress',this)"><div class="i">📊</div>Progress</button>
+    <button class="nav-btn" data-page="profile" onclick="showPage('profile',this)"><div class="i">👤</div>Profile</button>
   </nav>
 
 
@@ -475,6 +679,130 @@ async function cloudSaveUserData() {
   }
 }
 
+
+
+const ACHIEVEMENT_ICON_PATH = "assets/achievements/";
+
+const STEP_BADGES = [
+  {id:"steps_baby_steps", name:"Baby Steps", steps:1000, xp:50, icon:"baby-steps.png"},
+  {id:"steps_getting_moving", name:"Getting Moving", steps:2500, xp:100, icon:"getting-moving.png"},
+  {id:"steps_on_your_feet", name:"On Your Feet", steps:5000, xp:175, icon:"on-your-feet.png"},
+  {id:"steps_step_starter", name:"Step Starter", steps:7500, xp:250, icon:"step-starter.png"},
+  {id:"steps_stride_seeker", name:"Stride Seeker", steps:10000, xp:350, icon:"stride-seeker.png"},
+  {id:"steps_path_finder", name:"Path Finder", steps:15000, xp:500, icon:"path-finder.png"},
+  {id:"steps_street_stomper", name:"Street Stomper", steps:20000, xp:700, icon:"street-stomper.png"},
+  {id:"steps_trail_blazer", name:"Trail Blazer", steps:25000, xp:900, icon:"trail-blazer.png"},
+  {id:"steps_distance_dealer", name:"Distance Dealer", steps:30000, xp:1100, icon:"distance-dealer.png"},
+  {id:"steps_march_master", name:"March Master", steps:40000, xp:1500, icon:"march-master.png"},
+  {id:"steps_road_warrior", name:"Road Warrior", steps:50000, xp:2000, icon:"road-warrior.png"},
+  {id:"steps_peak_walker", name:"Peak Walker", steps:75000, xp:3000, icon:"peak-walker.png"},
+  {id:"steps_the_long_haul", name:"The Long Haul", steps:100000, xp:4000, icon:"the-long-haul.png"},
+  {id:"steps_relentless_strider", name:"Relentless Strider", steps:150000, xp:6000, icon:"relentless-strider.png"},
+  {id:"steps_conquest_walker", name:"Conquest Walker", steps:250000, xp:10000, icon:"conquest-walker.png"},
+  {id:"steps_step_legend", name:"Step Legend", steps:500000, xp:20000, icon:"step-legend.png"},
+  {id:"steps_million_step_monarch", name:"Million Step Monarch", steps:1000000, xp:50000, icon:"million-step-monarch.png"}
+];
+
+const STEP_TROPHIES = [
+  {id:"steps_trophy_bronze", tier:"Bronze", name:"First Foot Forward", xp:500, from:0, to:3, icon:"first-foot-forward.png"},
+  {id:"steps_trophy_silver", tier:"Silver", name:"Stride Champion", xp:1500, from:4, to:7, icon:"stride-champion.png"},
+  {id:"steps_trophy_gold", tier:"Gold", name:"Path Conqueror", xp:5000, from:8, to:11, icon:"path-conqueror.png"},
+  {id:"steps_trophy_platinum", tier:"Platinum", name:"A Step Above the Rest", xp:25000, from:12, to:16, icon:"a-step-above-the-rest.png"}
+];
+
+function fmt(n){return Number(n||0).toLocaleString();}
+function getTotalSteps(){
+  return activities.reduce((sum,a)=>{
+    const explicit = Number(a.steps || 0);
+    if(explicit) return sum + explicit;
+    if(String(a.unit).toLowerCase()==="steps") return sum + Number(a.distance || 0);
+    return sum;
+  },0);
+}
+function unlockedStepBadges(){
+  const total = getTotalSteps();
+  return STEP_BADGES.filter(b => total >= b.steps);
+}
+function isTrophyUnlocked(t){
+  const unlockedIds = new Set(unlockedStepBadges().map(b=>b.id));
+  return STEP_BADGES.slice(t.from, t.to+1).every(b => unlockedIds.has(b.id));
+}
+function achievementXP(){
+  const badgeXP = unlockedStepBadges().reduce((s,b)=>s+b.xp,0);
+  const trophyXP = STEP_TROPHIES.filter(isTrophyUnlocked).reduce((s,t)=>s+t.xp,0);
+  return badgeXP + trophyXP;
+}
+function showAchievementsTab(tab){
+  const trophyPanel=document.getElementById("achievementTrophyPanel");
+  const badgesPanel=document.getElementById("achievementBadgesPanel");
+  const trophyTab=document.getElementById("achTrophyTab");
+  const badgesTab=document.getElementById("achBadgesTab");
+  if(trophyPanel) trophyPanel.classList.toggle("active", tab==="trophies");
+  if(badgesPanel) badgesPanel.classList.toggle("active", tab==="badges");
+  if(trophyTab) trophyTab.classList.toggle("active", tab==="trophies");
+  if(badgesTab) badgesTab.classList.toggle("active", tab==="badges");
+}
+function renderStepAchievements(){
+  const total = getTotalSteps();
+  const unlocked = unlockedStepBadges();
+  const unlockedIds = new Set(unlocked.map(b=>b.id));
+  const maxXP = STEP_BADGES.reduce((s,b)=>s+b.xp,0) + STEP_TROPHIES.reduce((s,t)=>s+t.xp,0);
+  const xp = achievementXP();
+
+  const xpEl=document.getElementById("achievementXP");
+  const xpBar=document.getElementById("achievementXPBar");
+  const totalEl=document.getElementById("totalStepsStat");
+  const statEl=document.getElementById("stepBadgesStat");
+  if(xpEl) xpEl.textContent = fmt(xp) + " XP";
+  if(xpBar) xpBar.style.width = Math.min(100, Math.round(xp/maxXP*100)) + "%";
+  if(totalEl) totalEl.textContent = fmt(total);
+  if(statEl) statEl.textContent = `${unlocked.length} / ${STEP_BADGES.length}`;
+
+  const badgeWrap=document.getElementById("stepBadges");
+  if(badgeWrap){
+    badgeWrap.innerHTML = STEP_BADGES.map((b,i)=>{
+      const done = total >= b.steps;
+      const pctDone = Math.min(100, Math.round(total / b.steps * 100));
+      return `<div class="step-badge-card ${done?"":"locked"}">
+        <div class="badge-art"><img src="${ACHIEVEMENT_ICON_PATH}${b.icon}" alt="${b.name} badge"></div>
+        <div class="badge-body">
+          <div class="badge-row">
+            <div><span class="tag">#${i+1} · Steps</span><h4>${b.name}</h4></div>
+            <div class="xp-pill">+${fmt(b.xp)} XP</div>
+          </div>
+          <p class="muted">${fmt(b.steps)} steps milestone</p>
+          <div class="progress"><span style="width:${pctDone}%"></span></div>
+          <p class="muted">${fmt(Math.min(total,b.steps))} / ${fmt(b.steps)} steps</p>
+          <span class="unlock-pill ${done?"unlocked":""}">${done?"✅ Unlocked":"🔒 Locked"}</span>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  const trophyWrap=document.getElementById("stepTrophies");
+  if(trophyWrap){
+    trophyWrap.innerHTML = STEP_TROPHIES.map(t=>{
+      const group = STEP_BADGES.slice(t.from, t.to+1);
+      const done = isTrophyUnlocked(t);
+      const doneCount = group.filter(b => unlockedIds.has(b.id)).length;
+      return `<div class="trophy-card ${done?"":"locked"}">
+        <div class="trophy-art"><img src="${ACHIEVEMENT_ICON_PATH}${t.icon}" alt="${t.tier} trophy"></div>
+        <div class="trophy-body">
+          <div class="trophy-row">
+            <div><span class="tag">${t.tier} Trophy</span><h4>${t.name}</h4></div>
+            <div class="xp-pill">+${fmt(t.xp)} XP</div>
+          </div>
+          <p class="muted">Unlock badges ${t.from+1}–${t.to+1}. Progress: ${doneCount} / ${group.length}</p>
+          <div class="progress"><span style="width:${Math.round(doneCount/group.length*100)}%"></span></div>
+          <div class="mini-requirements">
+            ${group.map(b=>`<span class="mini-req ${unlockedIds.has(b.id)?"done":""}">${unlockedIds.has(b.id)?"✓":"•"} ${b.name}</span>`).join("")}
+          </div>
+          <span class="unlock-pill ${done?"unlocked":""}">${done?"🏆 Trophy Unlocked":"🔒 Trophy Locked"}</span>
+        </div>
+      </div>`;
+    }).join("");
+  }
+}
 
 const demoMedals = [
  {id:1,company:"The Conqueror",challengeName:"Hadrian's Wall",distance:90,unit:"mi",initial:20,status:"In Progress",route:"Roman wall route across Northern England",notes:"Current challenge.",medalPhoto:"",mapPhoto:"",proofPhoto:""},
@@ -805,7 +1133,7 @@ function renderHomeDashboard(){
   }
 
   const totalDistance = activities.reduce((s,a)=>s+(+a.distance||0),0);
-  const xp = Math.round(totalDistance * 10) + medals.filter(m=>m.status==="Won").length * 250 + activities.length * 25;
+  const xp = achievementXP() + Math.round(totalDistance * 10) + medals.filter(m=>m.status==="Won").length * 250 + activities.length * 25;
   const level = Math.max(1, Math.floor(xp / 500) + 1);
   const levelProgress = Math.min(100, Math.round((xp % 500) / 500 * 100));
   if(document.getElementById("levelBadge")) levelBadge.textContent = level;
