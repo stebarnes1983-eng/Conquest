@@ -27,6 +27,39 @@
     .auth-tab{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--muted);border-radius:16px;padding:12px;font-weight:900}
     .auth-tab.active{background:var(--neon);color:#06101d;border:0}
     .auth-form{display:none}.auth-form.active{display:block}
+    .google-btn{
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      background:#fff;
+      color:#111827;
+      border-radius:18px;
+      padding:14px 16px;
+      font-weight:950;
+      font-size:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:14px;
+      box-shadow:0 14px 28px rgba(0,0,0,.18);
+    }
+    .divider{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin:10px 0 14px;
+    }
+    .divider:before,.divider:after{
+      content:"";
+      height:1px;
+      flex:1;
+      background:rgba(255,255,255,.1);
+    }
     .profile-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:8px 10px;border-radius:18px}
     .profile-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--neon),#8fc900);color:#06101d;display:grid;place-items:center;font-weight:950}
     .tiny{font-size:12px;color:var(--muted);line-height:1.4}
@@ -57,6 +90,117 @@
     .bar-row{margin-bottom:12px}.bar-top{display:flex;justify-content:space-between;font-size:13px;font-weight:900;margin-bottom:6px}.bar-track{height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--neon));border-radius:999px}
     .bottom-nav{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(430px,calc(100% - 20px));border-radius:24px;padding:10px 8px;background:rgba(5,11,22,.94);border:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;box-shadow:0 20px 35px rgba(0,0,0,.32);backdrop-filter:blur(12px)}
     .nav-btn{border:0;background:transparent;color:#9aa7bf;display:grid;place-items:center;gap:5px;padding:8px 3px;border-radius:18px;font-size:11px;font-weight:800}.nav-btn .i{font-size:21px}.nav-btn.active{color:var(--neon)}
+
+    .hero-dashboard{
+      background:
+        radial-gradient(circle at 85% 20%, rgba(200,245,31,.20), transparent 28%),
+        linear-gradient(135deg, rgba(15,27,49,.98), rgba(6,13,26,.98));
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:28px;
+      padding:18px;
+      box-shadow:0 24px 55px rgba(0,0,0,.38);
+      margin-bottom:12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-dashboard:after{
+      content:"";
+      position:absolute;
+      width:180px;height:180px;border-radius:50%;
+      right:-80px;bottom:-90px;
+      background:rgba(200,245,31,.08);
+    }
+    .hero-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:relative;z-index:1}
+    .hero-title h3{margin:8px 0 6px;font-size:34px;line-height:.95;letter-spacing:-.07em}
+    .hero-title p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+    .hero-ring{
+      width:108px;height:108px;border-radius:50%;
+      display:grid;place-items:center;flex:0 0 auto;
+      background:conic-gradient(var(--neon) 0deg 0deg, rgba(255,255,255,.08) 0deg 360deg);
+      box-shadow:0 0 28px rgba(200,245,31,.12);
+    }
+    .hero-ring-inner{
+      width:80px;height:80px;border-radius:50%;
+      background:#07101d;display:grid;place-items:center;text-align:center;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .hero-ring strong{font-size:25px;letter-spacing:-.06em}
+    .hero-ring span{display:block;color:var(--muted);font-size:10px;margin-top:1px}
+    .hero-progress-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+    .meta-pill{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.07);
+      color:#dfe7f4;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .quick-actions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:12px 0;
+    }
+    .quick-action{
+      min-height:86px;
+      border-radius:22px;
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
+      border:1px solid rgba(255,255,255,.07);
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      font-weight:900;
+      font-size:12px;
+      text-align:center;
+      padding:10px;
+    }
+    .quick-action .qa-icon{
+      width:38px;height:38px;border-radius:14px;
+      display:grid;place-items:center;
+      background:rgba(200,245,31,.12);
+      color:var(--neon);
+      font-size:21px;
+    }
+    .level-strip{
+      display:grid;
+      grid-template-columns:58px 1fr;
+      gap:12px;
+      align-items:center;
+      padding:14px;
+      border-radius:24px;
+      background:linear-gradient(90deg,rgba(200,245,31,.10),rgba(37,240,208,.04));
+      border:1px solid rgba(200,245,31,.12);
+      margin-bottom:12px;
+    }
+    .level-badge{
+      width:58px;height:58px;border-radius:20px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--neon),#86c900);
+      color:#06101d;
+      font-size:25px;
+      font-weight:950;
+      box-shadow:0 15px 30px rgba(200,245,31,.2);
+    }
+    .level-strip h4{margin:0;font-size:16px}
+    .level-strip p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .feed-header{
+      display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;
+    }
+    .feed-header h3{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#dbe4f5}
+    .empty-home{
+      padding:18px;
+      border:1px dashed rgba(200,245,31,.28);
+      background:rgba(200,245,31,.06);
+      border-radius:24px;
+      text-align:center;
+    }
+    .empty-home h3{margin:0 0 6px}
+    .empty-home p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+
   </style>
 </head>
 <body>
@@ -72,6 +216,12 @@
         <button class="auth-tab" id="signupTab" onclick="setAuthMode('signup')">Sign Up</button>
       </div>
 
+      <button class="google-btn" id="googleButton" onclick="continueWithGoogle()" type="button">
+        <span style="font-size:22px">G</span>
+        Continue with Google
+      </button>
+      <div class="divider">or use email</div>
+
       <form id="loginForm" class="auth-form active">
         <div class="field"><label>Email</label><input id="loginId" autocomplete="username" required placeholder="you@example.com"></div>
         <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••"></div>
@@ -85,7 +235,7 @@
         <button class="btn primary full" id="signupButton">Create Profile</button>
       </form>
 
-      <div id="authMessage" class="tiny" style="margin-top:12px;color:var(--neon);text-align:center"></div><p class="tiny">Cloud login uses Firebase Authentication and Firestore.</p>
+      <div id="authMessage" class="tiny" style="margin-top:12px;color:var(--neon);text-align:center"></div><p class="tiny">Cloud login uses Firebase Authentication, Google sign-in and Firestore.</p>
     </div>
   </section>
 
@@ -93,18 +243,47 @@
     <div class="top"><div class="brand"><div class="logo">🛡️</div><h1>CONQUEST</h1></div><div style="display:flex;gap:8px;align-items:center"><div class="profile-chip" onclick="showPage('profile')"><div class="profile-avatar" id="profileInitial">U</div></div><button class="icon-btn" onclick="showPage('library')">📚</button><button class="icon-btn" onclick="showPage('backup')">☁️</button></div></div>
 
     <section id="page-home" class="page active">
-      <div class="greeting"><h2><span id="homeGreeting">Good morning</span> 👊</h2><p>Every step counts towards the next medal.</p></div>
-      <div class="grid2">
-        <div class="card goal"><div class="ring" id="homeRing"><div class="ring-inner"><div><strong id="homePct">0</strong><span>% current</span></div></div></div><b id="homeMsg" style="color:var(--neon);font-size:20px">Start a challenge</b></div>
+      <div class="greeting">
+        <h2><span id="homeGreeting">Good morning</span> 👊</h2>
+        <p>Conquer your route, log your progress, earn the medal.</p>
+      </div>
+
+      <div id="premiumHero"></div>
+
+      <div class="quick-actions">
+        <button class="quick-action" onclick="showPage('log')"><div class="qa-icon">👟</div>Log Activity</button>
+        <button class="quick-action" onclick="showPage('library')"><div class="qa-icon">📚</div>Library</button>
+        <button class="quick-action" onclick="showPage('add')"><div class="qa-icon">🏅</div>Add Medal</button>
+      </div>
+
+      <div class="level-strip">
+        <div class="level-badge" id="levelBadge">1</div>
         <div>
-          <div class="stat"><small>Medals Won</small><strong id="statWon">0</strong></div>
-          <div class="stat"><small>Total Distance</small><strong id="statDistance">0</strong></div>
-          <div class="stat"><small>Activities</small><strong id="statActs">0</strong></div>
+          <h4 id="levelTitle">Level 1 Conqueror</h4>
+          <p id="levelSub">Log activities to earn XP and level up.</p>
+          <div class="progress"><span id="levelBar" style="width:0%"></span></div>
         </div>
       </div>
-      <div class="section-title"><h3>Current Challenge</h3><a onclick="showPage('library')">Library</a></div>
-      <div id="currentChallenge"></div>
-      <div class="section-title"><h3>Recent Medals</h3><a onclick="showPage('medals')">View all</a></div>
+
+      <div class="grid2">
+        <div class="stat"><small>Medals Won</small><strong id="statWon">0</strong></div>
+        <div class="stat"><small>Total Distance</small><strong id="statDistance">0</strong></div>
+      </div>
+      <div class="grid2" style="margin-top:10px">
+        <div class="stat"><small>Activities</small><strong id="statActs">0</strong></div>
+        <div class="stat"><small>Active Goals</small><strong id="statActiveGoals">0</strong></div>
+      </div>
+
+      <div class="feed-header">
+        <h3>Recent Activity</h3>
+        <a class="muted" onclick="showPage('log')" style="font-size:13px;text-decoration:none">View all</a>
+      </div>
+      <div id="homeActivityFeed"></div>
+
+      <div class="feed-header">
+        <h3>Recent Medals</h3>
+        <a class="muted" onclick="showPage('medals')" style="font-size:13px;text-decoration:none">View all</a>
+      </div>
       <div class="grid3" id="recentMedals"></div>
     </section>
 
@@ -350,6 +529,41 @@ function authStatus(message, isError=false){
  const el=document.getElementById("authMessage");
  if(el){ el.textContent=message || ""; el.style.color=isError ? "#ff5a7a" : "var(--neon)"; }
 }
+
+async function continueWithGoogle(){
+  authStatus("Opening Google sign-in...");
+  const btn = document.getElementById("googleButton");
+  if(btn) btn.disabled = true;
+  try{
+    if(!firebaseConfigured){
+      authStatus("Firebase config is missing.", true);
+      return;
+    }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+
+    let result;
+    try{
+      result = await withTimeout(auth.signInWithPopup(provider), 15000, "Google sign-in popup took too long.");
+    }catch(popupErr){
+      console.warn("Popup sign-in failed, trying redirect:", popupErr);
+      authStatus("Redirecting to Google...");
+      await auth.signInWithRedirect(provider);
+      return;
+    }
+
+    const user = result.user;
+    currentUser = { id:user.uid, name:user.displayName || user.email.split("@")[0], email:user.email };
+    authStatus("Google sign-in successful. Loading Conquest...");
+    await startApp();
+  }catch(err){
+    authStatus(friendlyAuthError(err), true);
+    alert(friendlyAuthError(err));
+  }finally{
+    if(btn) btn.disabled = false;
+  }
+}
+
 function setAuthMode(mode){
  document.getElementById("loginTab").classList.toggle("active", mode==="login");
  document.getElementById("signupTab").classList.toggle("active", mode==="signup");
@@ -366,6 +580,8 @@ function friendlyAuthError(err){
  if(code.includes("email-already-in-use")) return "That email is already registered. Use Login instead.";
  if(code.includes("weak-password")) return "Password should be at least 6 characters.";
  if(code.includes("network-request-failed")) return "Network error. Check your internet connection.";
+ if(code.includes("popup-closed-by-user")) return "Google sign-in was closed before it finished.";
+ if(code.includes("popup-blocked")) return "The Google sign-in popup was blocked. Try again or use email login.";
  if(code.includes("unauthorized-domain")) return "This domain is not authorised in Firebase. Add this site/domain in Firebase Authentication settings."; if(String(err && err.message).includes("took too long")) return err.message + " This can happen when opening the app as a local file/content URL.";
  return (err && err.message) ? err.message : "Something went wrong.";
 }
@@ -385,7 +601,7 @@ loginForm.addEventListener("submit", async (e)=>{
    const user = result.user;
    currentUser = { id:user.uid, name:user.displayName || user.email.split("@")[0], email:user.email };
    authStatus("Login successful. Loading Conquest...");
-   await startApp();
+   await startApp().catch(err => { console.error(err); alert("Login worked, but the app could not open cleanly. Try refreshing."); });
  }catch(err){
    authStatus(friendlyAuthError(err), true);
    alert(friendlyAuthError(err));
@@ -434,12 +650,25 @@ async function resetPassword(){
 }
 
 async function startApp(isNew=false){
+ authStatus("Opening Conquest...");
  document.getElementById("authScreen").classList.remove("active");
  document.getElementById("mainApp").style.display="block";
  document.getElementById("bottomNav").style.display="grid";
- await loadUserData();
- updateProfileUI();
- render();
+ try{
+   await loadUserData();
+ }catch(err){
+   console.error("Load data failed:", err);
+   medals = medals && medals.length ? medals : demoMedals;
+   activities = activities && activities.length ? activities : demoActivities;
+   library = library && library.length ? library : demoLibrary;
+ }
+ try{
+   updateProfileUI();
+   render();
+ }catch(err){
+   console.error("Render failed:", err);
+   alert("Login worked, but the dashboard had a display error. I have opened the app anyway.");
+ }
 }
 
 function updateProfileUI(){
@@ -541,19 +770,99 @@ function exportLibrary(){
  let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="conquest-challenge-library.csv";a.click();
 }
 
+
+function renderHomeDashboard(){
+  const active = medals.filter(m => m.status === "In Progress" || m.status === "Planned");
+  const current = medals.find(m => m.status === "In Progress") || medals[0];
+  const hero = document.getElementById("premiumHero");
+  if(!hero) return;
+
+  if(!current){
+    hero.innerHTML = `<div class="empty-home"><h3>No challenge yet</h3><p>Add your first medal or import a challenge from the library to begin your Conquest.</p><button class="btn primary full" onclick="showPage('add')">Start Conquest</button></div>`;
+  } else {
+    const p = pct(current);
+    const done = Math.round(progress(current) * 10) / 10;
+    const left = Math.max(0, Math.round((Number(current.distance || 0) - progress(current)) * 10) / 10);
+    hero.innerHTML = `
+      <div class="hero-dashboard" onclick="openDetail(${current.id})">
+        <div class="hero-top">
+          <div class="hero-title">
+            <span class="tag">${current.company || "Challenge"}</span>
+            <h3>${current.challengeName || "Current Challenge"}</h3>
+            <p>${current.route || "Keep logging activities to move towards your medal."}</p>
+          </div>
+          <div class="hero-ring" style="background:conic-gradient(var(--neon) 0deg ${p*3.6}deg, rgba(255,255,255,.08) ${p*3.6}deg 360deg)">
+            <div class="hero-ring-inner"><div><strong>${p}%</strong><span>complete</span></div></div>
+          </div>
+        </div>
+        <div class="progress"><span style="width:${p}%"></span></div>
+        <div class="hero-progress-meta">
+          <span class="meta-pill">${done} / ${current.distance} ${current.unit}</span>
+          <span class="meta-pill">${left} ${current.unit} left</span>
+          <span class="meta-pill">${activities.filter(a=>+a.medalId===+current.id).length} logs</span>
+        </div>
+      </div>`;
+  }
+
+  const totalDistance = activities.reduce((s,a)=>s+(+a.distance||0),0);
+  const xp = Math.round(totalDistance * 10) + medals.filter(m=>m.status==="Won").length * 250 + activities.length * 25;
+  const level = Math.max(1, Math.floor(xp / 500) + 1);
+  const levelProgress = Math.min(100, Math.round((xp % 500) / 500 * 100));
+  if(document.getElementById("levelBadge")) levelBadge.textContent = level;
+  if(document.getElementById("levelTitle")) levelTitle.textContent = `Level ${level} Conqueror`;
+  if(document.getElementById("levelSub")) levelSub.textContent = `${xp} XP earned · ${500 - (xp % 500)} XP to next level`;
+  if(document.getElementById("levelBar")) levelBar.style.width = levelProgress + "%";
+  if(document.getElementById("statActiveGoals")) statActiveGoals.textContent = active.length;
+
+  const feed = document.getElementById("homeActivityFeed");
+  if(feed){
+    feed.innerHTML = activities.slice(0,4).map(a=>activityCard(a)).join("") || `<div class="empty-home"><h3>No activity yet</h3><p>Log a walk, run or ride to start filling your progress feed.</p></div>`;
+  }
+}
+
+function setText(id, value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=value;
+}
+function setHTML(id, value){
+  const el=document.getElementById(id);
+  if(el) el.innerHTML=value;
+}
 function render(){
  updateWon(); save();
  let won=medals.filter(m=>m.status==="Won").length,total=activities.reduce((s,a)=>s+(+a.distance||0),0);
- statWon.textContent=won; statDistance.textContent=Math.round(total*10)/10; statActs.textContent=activities.length; if(document.getElementById("profileMedals")){profileMedals.textContent=medals.length; profileActivities.textContent=activities.length;}
- activityMedalSelect.innerHTML=medals.map(m=>`<option value="${m.id}">${m.company} — ${m.challengeName}</option>`).join("");
- let current=medals.find(m=>m.status==="In Progress")||medals[0];
- if(current){let p=pct(current);homePct.textContent=p;homeRing.style.background=`conic-gradient(var(--neon) 0deg ${p*3.6}deg, rgba(255,255,255,.08) ${p*3.6}deg 360deg)`;homeMsg.textContent=p>=100?"Medal conquered!":"Keep conquering!";currentChallenge.innerHTML=`<div class="card challenge" onclick="openDetail(${current.id})"><span class="tag">${current.company}</span><h4>${current.challengeName}</h4><div class="muted">${Math.round(progress(current)*10)/10} / ${current.distance} ${current.unit} completed</div><div class="progress"><span style="width:${p}%"></span></div></div>`}
- recentMedals.innerHTML=medals.slice(0,3).map(medalCard).join(""); allMedals.innerHTML=medals.map(medalCard).join("");
- activityList.innerHTML=activities.slice(0,8).map(a=>activityCard(a)).join("");
- barChart("monthlyChart",group(activities,a=>(a.date||"").slice(0,7),a=>a.distance)); barChart("typeChart",group(activities,a=>a.type,a=>a.distance)); barChart("companyChart",group(medals,m=>m.company));
- renderBadges(); renderLibrary();
+ setText("statWon", won);
+ setText("statDistance", Math.round(total*10)/10);
+ setText("statActs", activities.length);
+ setText("profileMedals", medals.length);
+ setText("profileActivities", activities.length);
+
+ const select=document.getElementById("activityMedalSelect");
+ if(select) select.innerHTML=medals.map(m=>`<option value="${m.id}">${m.company} — ${m.challengeName}</option>`).join("");
+
+ setHTML("recentMedals", medals.slice(0,3).map(medalCard).join(""));
+ setHTML("allMedals", medals.map(medalCard).join(""));
+ setHTML("activityList", activities.slice(0,8).map(a=>activityCard(a)).join(""));
+
+ if(document.getElementById("monthlyChart")) barChart("monthlyChart",group(activities,a=>(a.date||"").slice(0,7),a=>a.distance));
+ if(document.getElementById("typeChart")) barChart("typeChart",group(activities,a=>a.type,a=>a.distance));
+ if(document.getElementById("companyChart")) barChart("companyChart",group(medals,m=>m.company));
+
+ renderBadges();
+ renderLibrary();
+ renderHomeDashboard();
 }
-function renderBadges(){let total=activities.reduce((s,a)=>s+(+a.distance||0),0),won=medals.filter(m=>m.status==="Won").length,streak=activities.length>=7;let defs=[["👟","First Steps",activities.length>=1],["🔥","On Fire",activities.length>=5],["🏆","Medal Winner",won>=1],["🛡️","Conqueror",won>=3],["📏","100 Distance",total>=100],["7","Week Warrior",streak]];let unlocked=defs.filter(x=>x[2]).length;achievementCount.textContent=`${unlocked} / ${defs.length}`;achievementBar.style.width=(unlocked/defs.length*100)+"%";badges.innerHTML=defs.map(d=>`<div class="badge ${d[2]?"":"locked"}"><div class="badge-icon">${d[2]?d[0]:"🔒"}</div><strong>${d[1]}</strong><span>${d[2]?"Unlocked":"Locked"}</span></div>`).join("")}
+function renderBadges(){
+ let total=activities.reduce((s,a)=>s+(+a.distance||0),0),won=medals.filter(m=>m.status==="Won").length,streak=activities.length>=7;
+ let defs=[["👟","First Steps",activities.length>=1],["🔥","On Fire",activities.length>=5],["🏆","Medal Winner",won>=1],["🛡️","Conqueror",won>=3],["📏","100 Distance",total>=100],["7","Week Warrior",streak]];
+ let unlocked=defs.filter(x=>x[2]).length;
+ const count=document.getElementById("achievementCount");
+ const bar=document.getElementById("achievementBar");
+ const badgeEl=document.getElementById("badges");
+ if(count) count.textContent=`${unlocked} / ${defs.length}`;
+ if(bar) bar.style.width=(unlocked/defs.length*100)+"%";
+ if(badgeEl) badgeEl.innerHTML=defs.map(d=>`<div class="badge ${d[2]?"":"locked"}"><div class="badge-icon">${d[2]?d[0]:"🔒"}</div><strong>${d[1]}</strong><span>${d[2]?"Unlocked":"Locked"}</span></div>`).join("");
+}
 
 medalForm.onsubmit=e=>{e.preventDefault();let id=editMedalId.value?+editMedalId.value:Date.now();let data={id,company:company.value,challengeName:challengeName.value,distance:+distanceValue.value||0,unit:distanceUnit.value,initial:+completedValue.value||0,status:status.value,route:routeTheme.value,notes:notes.value,medalPhoto:imageData.medalPhoto,mapPhoto:imageData.mapPhoto,proofPhoto:imageData.proofPhoto};let i=medals.findIndex(m=>m.id===id);if(i>=0)medals[i]=data;else medals.unshift(data);clearMedalForm();openDetail(id)}
 activityForm.onsubmit=e=>{e.preventDefault();let id=editActivityId.value?+editActivityId.value:Date.now();let data={id,medalId:+activityMedalSelect.value,date:activityDate.value,type:activityType.value,distance:+activityDistance.value||0,unit:activityUnit.value,notes:activityNotes.value,proof:activityProof};let i=activities.findIndex(a=>a.id===id);if(i>=0)activities[i]=data;else activities.unshift(data);clearActivityForm();openDetail(data.medalId)}
