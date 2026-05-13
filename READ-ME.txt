@@ -1,0 +1,9 @@
+Conquest Firebase No-Stuck Version
+
+This version:
+- Adds timeouts to login/cloud loading.
+- Opens the app after login even if Firestore is slow/blocked.
+- Falls back to local device storage if cloud data cannot load.
+- Shows clearer warnings.
+
+If cloud sync fails while opening from content:// or file://, the long-term fix is to host the app on an HTTPS URL.

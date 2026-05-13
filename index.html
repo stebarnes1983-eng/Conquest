@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Conquest</title>
+  <meta name="theme-color" content="#050914" />
+  <style>
+    :root{
+      --bg:#040914; --panel:#0b1424; --panel2:#0f1b31; --line:rgba(255,255,255,.08);
+      --text:#f5f7fb; --muted:#98a4bd; --neon:#c8f51f; --teal:#25f0d0; --blue:#3f7cff;
+      --gold:#f6c54e; --danger:#ff5a7a; --radius:22px; --shadow:0 20px 45px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,#02060f,#07101d 35%,#02060f); color:var(--text); min-height:100vh; overflow-x:hidden;
+    }
+    .app{max-width:430px; min-height:100vh; margin:0 auto; background:linear-gradient(180deg,rgba(9,17,30,.98),rgba(3,8,16,.98)); position:relative; padding:14px 14px 102px}
+    .auth-screen{max-width:430px;min-height:100vh;margin:0 auto;padding:26px 18px;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg,#02060f,#07101d 45%,#02060f)}
+    .auth-screen.active{display:flex}
+    .auth-card{width:100%;background:linear-gradient(180deg,rgba(15,27,49,.98),rgba(8,16,31,.98));border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:22px}
+    .auth-logo{width:76px;height:76px;border-radius:24px;background:linear-gradient(135deg,var(--neon),#8fc900);color:#06101d;display:grid;place-items:center;font-size:42px;margin:0 auto 14px;box-shadow:0 18px 42px rgba(200,245,31,.25)}
+    .auth-card h1{text-align:center;font-size:34px;margin:0;letter-spacing:.03em}
+    .auth-card p{text-align:center;color:var(--muted);line-height:1.45;margin:8px 0 20px}
+    .auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+    .auth-tab{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:var(--muted);border-radius:16px;padding:12px;font-weight:900}
+    .auth-tab.active{background:var(--neon);color:#06101d;border:0}
+    .auth-form{display:none}.auth-form.active{display:block}
+    .profile-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:8px 10px;border-radius:18px}
+    .profile-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--neon),#8fc900);color:#06101d;display:grid;place-items:center;font-weight:950}
+    .tiny{font-size:12px;color:var(--muted);line-height:1.4}
+    .top{display:flex;justify-content:space-between;align-items:center;margin:8px 0 18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,var(--neon),#8fc900);color:#06101d;display:grid;place-items:center;font-size:24px;box-shadow:0 12px 28px rgba(200,245,31,.25)}
+    h1{font-size:22px;margin:0;letter-spacing:.03em;font-style:italic}
+    .icon-btn,.btn{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);color:var(--text);border-radius:16px;padding:11px 13px;font-weight:900}
+    .btn.primary{background:var(--neon);color:#06101d;border:0;box-shadow:0 12px 25px rgba(200,245,31,.22)}
+    .btn.danger{background:var(--danger);color:#fff;border:0}.btn.full{width:100%;margin-top:10px}
+    .page{display:none;animation:fade .18s ease}.page.active{display:block}@keyframes fade{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .greeting{margin-bottom:16px}.greeting h2{margin:0;font-size:24px;letter-spacing:-.05em}.greeting p{margin:5px 0 0;color:var(--muted);font-size:14px}
+    .card{background:linear-gradient(180deg,rgba(15,27,49,.96),rgba(8,16,31,.96));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .goal{display:grid;grid-template-columns:1fr;gap:12px;text-align:center}.ring{width:180px;height:180px;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:conic-gradient(var(--neon) 0deg 0deg, rgba(255,255,255,.08) 0deg 360deg)}
+    .ring-inner{width:136px;height:136px;border-radius:50%;background:#07101d;display:grid;place-items:center}.ring strong{font-size:48px;letter-spacing:-.08em}.ring span{display:block;color:var(--muted);font-size:12px}
+    .stat{padding:14px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.stat small{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:26px;letter-spacing:-.05em;margin-top:5px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}.section-title h3{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#dbe4f5}.section-title a{color:var(--muted);font-size:13px;text-decoration:none}
+    .challenge{position:relative;overflow:hidden;min-height:170px;background:linear-gradient(90deg,rgba(4,8,18,.98),rgba(8,20,38,.92));}.challenge h4{font-size:30px;line-height:.98;letter-spacing:-.06em;margin:8px 0}.tag{display:inline-block;background:rgba(200,245,31,.12);color:var(--neon);border:1px solid rgba(200,245,31,.18);border-radius:999px;padding:6px 9px;font-size:12px;font-weight:900}.muted{color:var(--muted)}
+    .progress{height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:14px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--neon));border-radius:999px}
+    .medal-card{padding:12px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);cursor:pointer}.medal-img{height:118px;border-radius:17px;background:linear-gradient(135deg,#f3c449,#7a4a00);display:grid;place-items:center;font-size:48px;overflow:hidden;margin-bottom:10px}.medal-img img{width:100%;height:100%;object-fit:cover}.medal-card h4{margin:0;font-size:15px}.medal-card p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .activity{display:flex;gap:12px;align-items:center;padding:12px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:9px}.thumb{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:24px;overflow:hidden;flex:0 0 auto}.thumb img{width:100%;height:100%;object-fit:cover}.activity h4{margin:0;font-size:15px}.activity p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    input,select,textarea{width:100%;background:#081224;border:1px solid rgba(255,255,255,.09);color:#fff;border-radius:16px;padding:13px;font:inherit;outline:none}textarea{min-height:86px}label{display:block;color:#dbe4f5;font-weight:800;font-size:13px;margin:0 0 6px}.field{margin-bottom:12px}
+    input[type=file]{font-size:12px}.preview{height:125px;border-radius:18px;background:rgba(255,255,255,.06);display:grid;place-items:center;color:var(--muted);font-size:12px;overflow:hidden;margin-bottom:8px;text-align:center}.preview img{width:100%;height:100%;object-fit:cover}
+    .badge{padding:12px;border-radius:20px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.badge-icon{width:68px;height:68px;margin:0 auto 8px;border-radius:22px;display:grid;place-items:center;font-size:34px;clip-path:polygon(25% 5%,75% 5%,97% 35%,86% 90%,14% 90%,3% 35%);background:linear-gradient(135deg,#f3c449,#7a4a00)}.locked .badge-icon{background:linear-gradient(135deg,#6d7484,#2d3445)}.badge strong{display:block;font-size:14px}.badge span{font-size:12px;color:var(--muted)}
+    .library-card{padding:13px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:9px;cursor:pointer}
+    .library-card h4{margin:5px 0;font-size:16px}.library-card p{margin:4px 0;color:var(--muted);font-size:12px;line-height:1.35}
+    .bar-row{margin-bottom:12px}.bar-top{display:flex;justify-content:space-between;font-size:13px;font-weight:900;margin-bottom:6px}.bar-track{height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--neon));border-radius:999px}
+    .bottom-nav{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(430px,calc(100% - 20px));border-radius:24px;padding:10px 8px;background:rgba(5,11,22,.94);border:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;box-shadow:0 20px 35px rgba(0,0,0,.32);backdrop-filter:blur(12px)}
+    .nav-btn{border:0;background:transparent;color:#9aa7bf;display:grid;place-items:center;gap:5px;padding:8px 3px;border-radius:18px;font-size:11px;font-weight:800}.nav-btn .i{font-size:21px}.nav-btn.active{color:var(--neon)}
+  </style>
+</head>
+<body>
+
+  <section id="authScreen" class="auth-screen active">
+    <div class="auth-card">
+      <div class="auth-logo">🛡️</div>
+      <h1>CONQUEST</h1>
+      <p>Create your cloud account and sync your medals, activities and badges across devices.</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" onclick="setAuthMode('login')">Login</button>
+        <button class="auth-tab" id="signupTab" onclick="setAuthMode('signup')">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active">
+        <div class="field"><label>Email</label><input id="loginId" autocomplete="username" required placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••"></div>
+        <button class="btn primary full" id="loginButton">Login</button><button class="btn full" type="button" onclick="resetPassword()">Forgot password?</button>
+      </form>
+
+      <form id="signupForm" class="auth-form">
+        <div class="field"><label>Name</label><input id="signupName" required placeholder="Stephen Barnes"></div>
+        <div class="field"><label>Email</label><input id="signupId" autocomplete="username" required placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input id="signupPassword" type="password" autocomplete="new-password" required placeholder="Minimum 6 characters"></div>
+        <button class="btn primary full" id="signupButton">Create Profile</button>
+      </form>
+
+      <div id="authMessage" class="tiny" style="margin-top:12px;color:var(--neon);text-align:center"></div><p class="tiny">Cloud login uses Firebase Authentication and Firestore.</p>
+    </div>
+  </section>
+
+  <main class="app" id="mainApp" style="display:none">
+    <div class="top"><div class="brand"><div class="logo">🛡️</div><h1>CONQUEST</h1></div><div style="display:flex;gap:8px;align-items:center"><div class="profile-chip" onclick="showPage('profile')"><div class="profile-avatar" id="profileInitial">U</div></div><button class="icon-btn" onclick="showPage('library')">📚</button><button class="icon-btn" onclick="showPage('backup')">☁️</button></div></div>
+
+    <section id="page-home" class="page active">
+      <div class="greeting"><h2><span id="homeGreeting">Good morning</span> 👊</h2><p>Every step counts towards the next medal.</p></div>
+      <div class="grid2">
+        <div class="card goal"><div class="ring" id="homeRing"><div class="ring-inner"><div><strong id="homePct">0</strong><span>% current</span></div></div></div><b id="homeMsg" style="color:var(--neon);font-size:20px">Start a challenge</b></div>
+        <div>
+          <div class="stat"><small>Medals Won</small><strong id="statWon">0</strong></div>
+          <div class="stat"><small>Total Distance</small><strong id="statDistance">0</strong></div>
+          <div class="stat"><small>Activities</small><strong id="statActs">0</strong></div>
+        </div>
+      </div>
+      <div class="section-title"><h3>Current Challenge</h3><a onclick="showPage('library')">Library</a></div>
+      <div id="currentChallenge"></div>
+      <div class="section-title"><h3>Recent Medals</h3><a onclick="showPage('medals')">View all</a></div>
+      <div class="grid3" id="recentMedals"></div>
+    </section>
+
+    <section id="page-medals" class="page">
+      <div class="greeting"><h2>Medals</h2><p>Your trophy cabinet.</p></div>
+      <button class="btn primary full" onclick="showPage('add')">+ Add Medal</button>
+      <div class="grid2" id="allMedals" style="margin-top:12px"></div>
+    </section>
+
+    <section id="page-add" class="page">
+      <div class="greeting"><h2 id="medalFormTitle">Add Medal</h2><p>Save a challenge and upload your own photos.</p></div><button class="btn full" onclick="showPage('library')">Choose from Challenge Library</button>
+      <form id="medalForm" class="card">
+        <input type="hidden" id="editMedalId">
+        <div class="field"><label>Company</label><input id="company" required placeholder="The Conqueror"></div>
+        <div class="field"><label>Challenge name</label><input id="challengeName" required placeholder="Hadrian's Wall"></div>
+        <div class="grid2"><div class="field"><label>Target distance</label><input id="distanceValue" type="number" step="0.01" placeholder="90"></div><div class="field"><label>Unit</label><select id="distanceUnit"><option>km</option><option>mi</option><option>miles</option><option>steps</option></select></div></div>
+        <div class="grid2"><div class="field"><label>Status</label><select id="status"><option>In Progress</option><option>Won</option><option>Planned</option></select></div><div class="field"><label>Initial progress</label><input id="completedValue" type="number" step="0.01" placeholder="0"></div></div>
+        <div class="field"><label>Route / theme</label><input id="routeTheme" placeholder="Roman wall route"></div>
+        <div class="field"><label>Medal photo</label><div class="preview" id="medalPhotoPreview">No photo</div><input id="medalPhotoFile" type="file" accept="image/*"></div>
+        <div class="field"><label>Map screenshot</label><div class="preview" id="mapPhotoPreview">No map</div><input id="mapPhotoFile" type="file" accept="image/*"></div>
+        <div class="field"><label>Proof screenshot</label><div class="preview" id="proofPhotoPreview">No proof</div><input id="proofPhotoFile" type="file" accept="image/*"></div>
+        <div class="field"><label>Notes</label><textarea id="notes"></textarea></div>
+        <button class="btn primary full">Save Medal</button><button class="btn full" type="button" onclick="clearMedalForm()">Clear</button>
+      </form>
+    </section>
+
+    <section id="page-log" class="page">
+      <div class="greeting"><h2 id="activityFormTitle">Log Activity</h2><p>Add walks, runs, rides or manual progress.</p></div>
+      <form id="activityForm" class="card">
+        <input type="hidden" id="editActivityId">
+        <div class="field"><label>Challenge</label><select id="activityMedalSelect" required></select></div>
+        <div class="grid2"><div class="field"><label>Date</label><input id="activityDate" type="date" required></div><div class="field"><label>Type</label><select id="activityType"><option>Walk</option><option>Run</option><option>Ride</option><option>Swim</option><option>Manual</option></select></div></div>
+        <div class="grid2"><div class="field"><label>Distance</label><input id="activityDistance" type="number" step="0.01" required></div><div class="field"><label>Unit</label><select id="activityUnit"><option>km</option><option>mi</option><option>miles</option><option>steps</option></select></div></div>
+        <div class="field"><label>Proof screenshot</label><div class="preview" id="activityProofPreview">No proof</div><input id="activityProofFile" type="file" accept="image/*"></div>
+        <div class="field"><label>Notes</label><textarea id="activityNotes"></textarea></div>
+        <button class="btn primary full">Save Activity</button><button class="btn full" type="button" onclick="clearActivityForm()">Clear</button>
+      </form>
+      <div class="section-title"><h3>Recent Activity</h3></div><div id="activityList"></div>
+    </section>
+
+    <section id="page-progress" class="page">
+      <div class="greeting"><h2>Progress</h2><p>Stats and performance charts.</p></div>
+      <div class="card"><h3 style="margin-top:0">Monthly Distance</h3><div id="monthlyChart"></div></div>
+      <div class="card"><h3 style="margin-top:0">Activity Types</h3><div id="typeChart"></div></div>
+      <div class="card"><h3 style="margin-top:0">Companies</h3><div id="companyChart"></div></div>
+    </section>
+
+    <section id="page-achievements" class="page">
+      <div class="greeting"><h2>Achievements</h2><p>Badges unlocked by your progress.</p></div>
+      <div class="card"><div style="font-size:42px;font-weight:950" id="achievementCount">0 / 6</div><p class="muted">Achievements unlocked</p><div class="progress"><span id="achievementBar" style="width:0%"></span></div></div>
+      <div class="grid3" id="badges"></div>
+    </section>
+
+    <section id="page-detail" class="page">
+      <div id="detailContent"></div>
+    </section>
+
+
+    <section id="page-library" class="page">
+      <div class="greeting"><h2>Challenge Library</h2><p>Import challenge databases and auto-fill medal details.</p></div>
+      <div class="card">
+        <div class="field"><label>Import CSV</label><input id="csvFile" type="file" accept=".csv,text/csv"></div>
+        <p class="muted" style="font-size:12px;line-height:1.45">CSV columns: company, challenge_name, distance_value, distance_unit, route_or_theme, source_url, notes.</p>
+        <button class="btn primary full" onclick="downloadLibraryTemplate()">Download CSV Template</button>
+        <button class="btn full" onclick="exportLibrary()">Export Library</button>
+      </div>
+      <div class="field"><input id="librarySearch" placeholder="Search challenges..." oninput="renderLibrary()"></div>
+      <div id="libraryList"></div>
+    </section>
+
+
+    <section id="page-profile" class="page">
+      <div class="greeting"><h2>Profile</h2><p>Your Conquest profile on this device.</p></div>
+      <div class="card" style="text-align:center">
+        <div class="auth-logo" style="width:88px;height:88px;font-size:44px" id="bigProfileInitial">S</div>
+        <h2 id="profileName" style="margin:0;font-size:30px">Stephen</h2>
+        <p class="muted" id="profileUserId">username</p>
+      </div>
+      <div class="grid2">
+        <div class="stat"><small>Medals</small><strong id="profileMedals">0</strong></div>
+        <div class="stat"><small>Activities</small><strong id="profileActivities">0</strong></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Profile Settings</h3>
+        <div class="field"><label>Display name</label><input id="editProfileName" placeholder="Your name"></div>
+        <button class="btn primary full" onclick="saveProfileName()">Save Profile Name</button>
+        <button class="btn full" onclick="logout()">Logout</button>
+        <button class="btn danger full" onclick="deleteProfile()">Delete This Profile</button>
+      </div>
+    </section>
+
+    <section id="page-backup" class="page">
+      <div class="greeting"><h2>Backup</h2><p>Protect your local data.</p></div>
+      <div class="card">
+        <button class="btn primary full" onclick="exportBackup()">Download Backup</button>
+        <div class="field" style="margin-top:12px"><label>Restore backup</label><input id="backupFile" type="file" accept=".json,application/json"></div>
+        <button class="btn danger full" onclick="clearAll()">Clear All Data</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" style="display:none">
+    <button class="nav-btn active" data-page="home" onclick="showPage('home',this)"><div class="i">🏠</div>Home</button>
+    <button class="nav-btn" data-page="medals" onclick="showPage('medals',this)"><div class="i">🏆</div>Medals</button>
+    <button class="nav-btn" data-page="log" onclick="showPage('log',this)"><div class="i">👟</div>Log</button>
+    <button class="nav-btn" data-page="progress" onclick="showPage('progress',this)"><div class="i">📊</div>Stats</button>
+    <button class="nav-btn" data-page="achievements" onclick="showPage('achievements',this)"><div class="i">🏅</div>Badges</button>
+  </nav>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<script>
+
+// FIREBASE SETUP
+// Replace these values with your Firebase web app config from Firebase Console > Project Settings.
+const firebaseConfig = {
+  apiKey: "AIzaSyDT_MW6rzmV1VhhutHgRhdbv5bVcXSaU2c",
+  authDomain: "conquest-7454a.firebaseapp.com",
+  projectId: "conquest-7454a",
+  storageBucket: "conquest-7454a.firebasestorage.app",
+  messagingSenderId: "438895188383",
+  appId: "1:438895188383:web:768323ce80bde007abc5aa",
+  measurementId: "G-W0BLFL3502"
+};
+
+const firebaseConfigured = !firebaseConfig.apiKey.includes("PASTE_");
+let auth = null;
+let db = null;
+
+if (firebaseConfigured) {
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+}
+
+function withTimeout(promise, ms, label="Request timed out") {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(label)), ms))
+  ]);
+}
+
+async function cloudLoadUserData(uid) {
+  try {
+    const ref = db.collection("users").doc(uid);
+    const snap = await withTimeout(ref.get(), 9000, "Cloud database took too long to respond.");
+    if (!snap.exists) {
+      medals = demoMedals;
+      activities = demoActivities;
+      library = demoLibrary;
+      await cloudSaveUserData();
+      return;
+    }
+    const data = snap.data() || {};
+    medals = data.medals || [];
+    activities = data.activities || [];
+    library = data.library || demoLibrary;
+  } catch (err) {
+    console.error("Cloud load failed:", err);
+    alert("Login worked, but cloud data could not load yet. The app will open using this device only for now. Check Firestore rules/database or try from a hosted link later.");
+    medals = JSON.parse(localStorage.getItem(localPrefix()+"medals") || "null") || demoMedals;
+    activities = JSON.parse(localStorage.getItem(localPrefix()+"activities") || "null") || demoActivities;
+    library = JSON.parse(localStorage.getItem(localPrefix()+"library") || "null") || demoLibrary;
+  }
+}
+
+async function cloudSaveUserData() {
+  if (!firebaseConfigured || !currentUser || !db) return;
+  try {
+    await withTimeout(db.collection("users").doc(currentUser.id).set({
+      profile: {
+        uid: currentUser.id,
+        name: currentUser.name,
+        email: currentUser.email || "",
+        updatedAt: new Date().toISOString()
+      },
+      medals,
+      activities,
+      library
+    }, { merge: true }), 9000, "Cloud save took too long to respond.");
+  } catch (err) {
+    console.error("Cloud save failed:", err);
+    localStorage.setItem(localPrefix()+"medals",JSON.stringify(medals));
+    localStorage.setItem(localPrefix()+"activities",JSON.stringify(activities));
+    localStorage.setItem(localPrefix()+"library",JSON.stringify(library));
+  }
+}
+
+
+const demoMedals = [
+ {id:1,company:"The Conqueror",challengeName:"Hadrian's Wall",distance:90,unit:"mi",initial:20,status:"In Progress",route:"Roman wall route across Northern England",notes:"Current challenge.",medalPhoto:"",mapPhoto:"",proofPhoto:""},
+ {id:2,company:"Virtual Runner UK",challengeName:"Spring 10K",distance:10,unit:"km",initial:10,status:"Won",route:"10K virtual race",notes:"Fastest 10K this year.",medalPhoto:"",mapPhoto:"",proofPhoto:""}
+];
+const demoActivities = [
+ {id:101,medalId:1,date:"2026-05-12",type:"Walk",distance:12,unit:"mi",notes:"Long walk.",proof:""},
+ {id:102,medalId:1,date:"2026-05-13",type:"Walk",distance:8,unit:"mi",notes:"Another section completed.",proof:""}
+];
+const demoLibrary = [
+ {company:"The Conqueror",challenge_name:"Hadrian's Wall",distance_value:"90",distance_unit:"mi",route_or_theme:"Roman wall route across Northern England",source_url:"",notes:"Good first long-distance virtual challenge."},
+ {company:"The Conqueror",challenge_name:"Length of the UK",distance_value:"1084",distance_unit:"mi",route_or_theme:"Land's End to John O'Groats",source_url:"https://www.theconqueror.events/lejog/",notes:"Fixed route challenge."},
+ {company:"Virtual Runner UK",challenge_name:"Spring 10K",distance_value:"10",distance_unit:"km",route_or_theme:"10K virtual race",source_url:"",notes:"Race/event style challenge."}
+];
+
+let currentUser = null;
+let medals = [];
+let activities = [];
+let library = [];
+let imageData={medalPhoto:"",mapPhoto:"",proofPhoto:""}, activityProof="";
+
+function safeKey(id){return String(id).trim().toLowerCase().replace(/[^a-z0-9_-]/g,"_")}
+function localPrefix(){return "conquest_local_" + safeKey(currentUser?.id || "guest") + "_"}
+async function loadUserData(){
+ if (firebaseConfigured && currentUser?.id) {
+   await cloudLoadUserData(currentUser.id);
+   return;
+ }
+ medals = JSON.parse(localStorage.getItem(localPrefix()+"medals") || "null") || demoMedals;
+ activities = JSON.parse(localStorage.getItem(localPrefix()+"activities") || "null") || demoActivities;
+ library = JSON.parse(localStorage.getItem(localPrefix()+"library") || "null") || demoLibrary;
+}
+
+function save(){
+ if(!currentUser) return;
+ if(firebaseConfigured) {
+   cloudSaveUserData().catch(console.error);
+ } else {
+   localStorage.setItem(localPrefix()+"medals",JSON.stringify(medals));
+   localStorage.setItem(localPrefix()+"activities",JSON.stringify(activities));
+   localStorage.setItem(localPrefix()+"library",JSON.stringify(library));
+ }
+}
+function showPage(page,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById("page-"+page).classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));(btn||document.querySelector(`.nav-btn[data-page="${page}"]`))?.classList.add("active");render();}
+function totalFor(id){return activities.filter(a=>+a.medalId===+id).reduce((s,a)=>s+(+a.distance||0),0)}
+function progress(m){return (+m.initial||0)+totalFor(m.id)}
+function pct(m){return m.distance?Math.min(100,Math.round(progress(m)/m.distance*100)):0}
+function updateWon(){medals.forEach(m=>{if(m.distance&&progress(m)>=m.distance)m.status="Won"})}
+function imgHTML(src,emoji="🏅"){return src?`<img src="${src}">`:emoji}
+
+function authStatus(message, isError=false){
+ const el=document.getElementById("authMessage");
+ if(el){ el.textContent=message || ""; el.style.color=isError ? "#ff5a7a" : "var(--neon)"; }
+}
+function setAuthMode(mode){
+ document.getElementById("loginTab").classList.toggle("active", mode==="login");
+ document.getElementById("signupTab").classList.toggle("active", mode==="signup");
+ document.getElementById("loginForm").classList.toggle("active", mode==="login");
+ document.getElementById("signupForm").classList.toggle("active", mode==="signup");
+ authStatus("");
+}
+function friendlyAuthError(err){
+ const code = err && err.code ? err.code : "";
+ if(code.includes("wrong-password")) return "Wrong password. Try again or use Forgot password.";
+ if(code.includes("user-not-found")) return "No account found with that email. Use Sign Up first.";
+ if(code.includes("invalid-email")) return "That email address does not look right.";
+ if(code.includes("invalid-login-credentials")) return "Login details are incorrect. Check the email and password.";
+ if(code.includes("email-already-in-use")) return "That email is already registered. Use Login instead.";
+ if(code.includes("weak-password")) return "Password should be at least 6 characters.";
+ if(code.includes("network-request-failed")) return "Network error. Check your internet connection.";
+ if(code.includes("unauthorized-domain")) return "This domain is not authorised in Firebase. Add this site/domain in Firebase Authentication settings."; if(String(err && err.message).includes("took too long")) return err.message + " This can happen when opening the app as a local file/content URL.";
+ return (err && err.message) ? err.message : "Something went wrong.";
+}
+
+loginForm.addEventListener("submit", async (e)=>{
+ e.preventDefault();
+ authStatus("Logging in...");
+ loginButton.disabled = true;
+ try{
+   if(!firebaseConfigured){
+     authStatus("Firebase config is missing.", true);
+     return;
+   }
+   const email = loginId.value.trim();
+   const pass = loginPassword.value;
+   const result = await withTimeout(auth.signInWithEmailAndPassword(email, pass), 12000, "Firebase login took too long.");
+   const user = result.user;
+   currentUser = { id:user.uid, name:user.displayName || user.email.split("@")[0], email:user.email };
+   authStatus("Login successful. Loading Conquest...");
+   await startApp();
+ }catch(err){
+   authStatus(friendlyAuthError(err), true);
+   alert(friendlyAuthError(err));
+ }finally{
+   loginButton.disabled = false;
+ }
+});
+
+signupForm.addEventListener("submit", async (e)=>{
+ e.preventDefault();
+ authStatus("Creating account...");
+ signupButton.disabled = true;
+ try{
+   if(!firebaseConfigured){
+     authStatus("Firebase config is missing.", true);
+     return;
+   }
+   const name = signupName.value.trim() || signupId.value.trim();
+   const email = signupId.value.trim();
+   const pass = signupPassword.value;
+   if(pass.length < 6){ throw { code:"auth/weak-password" }; }
+   const result = await withTimeout(auth.createUserWithEmailAndPassword(email, pass), 12000, "Firebase sign-up took too long.");
+   await result.user.updateProfile({ displayName:name });
+   currentUser = { id:result.user.uid, name, email:result.user.email };
+   authStatus("Account created. Loading Conquest...");
+   await startApp(true);
+ }catch(err){
+   authStatus(friendlyAuthError(err), true);
+   alert(friendlyAuthError(err));
+ }finally{
+   signupButton.disabled = false;
+ }
+});
+
+async function resetPassword(){
+ const email = loginId.value.trim() || signupId.value.trim();
+ if(!email){ alert("Enter your email first, then tap Forgot password."); return; }
+ try{
+   await auth.sendPasswordResetEmail(email);
+   authStatus("Password reset email sent.");
+   alert("Password reset email sent.");
+ }catch(err){
+   authStatus(friendlyAuthError(err), true);
+   alert(friendlyAuthError(err));
+ }
+}
+
+async function startApp(isNew=false){
+ document.getElementById("authScreen").classList.remove("active");
+ document.getElementById("mainApp").style.display="block";
+ document.getElementById("bottomNav").style.display="grid";
+ await loadUserData();
+ updateProfileUI();
+ render();
+}
+
+function updateProfileUI(){
+ if(!currentUser)return;
+ let initial=(currentUser.name||currentUser.email||"U").trim()[0].toUpperCase();
+ profileInitial.textContent=initial;
+ bigProfileInitial.textContent=initial;
+ profileName.textContent=currentUser.name||currentUser.email||"User";
+ profileUserId.textContent=currentUser.email || currentUser.id;
+ editProfileName.value=currentUser.name||"";
+ homeGreeting.textContent="Good morning, " + (currentUser.name||"Conqueror").split(" ")[0];
+}
+
+async function saveProfileName(){
+ let newName=editProfileName.value.trim();
+ if(!newName)return;
+ currentUser.name=newName;
+ if(firebaseConfigured && auth.currentUser){
+   await auth.currentUser.updateProfile({ displayName:newName });
+   await cloudSaveUserData();
+ }
+ updateProfileUI(); render();
+}
+
+async function logout(){
+ if(firebaseConfigured && auth) await auth.signOut();
+ currentUser=null;
+ document.getElementById("mainApp").style.display="none";
+ document.getElementById("bottomNav").style.display="none";
+ document.getElementById("authScreen").classList.add("active");
+ loginPassword.value="";
+}
+
+async function deleteProfile(){
+ if(!currentUser)return;
+ if(!confirm("Delete this profile data? This will remove the saved Conquest data for this account."))return;
+ if(firebaseConfigured && db){
+   await db.collection("users").doc(currentUser.id).delete();
+   alert("Cloud profile data deleted. The Firebase Auth user still exists; delete it from Firebase Console if needed.");
+ } else {
+   localStorage.removeItem(localPrefix()+"medals");
+   localStorage.removeItem(localPrefix()+"activities");
+   localStorage.removeItem(localPrefix()+"library");
+ }
+ logout();
+}
+
+function fileToDataUrl(file){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>{let img=new Image();img.onload=()=>{let scale=Math.min(1,1100/img.width),c=document.createElement("canvas");c.width=img.width*scale;c.height=img.height*scale;c.getContext("2d").drawImage(img,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.76))};img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+async function setFile(input,key,preview){let f=document.getElementById(input).files[0]; if(!f)return; let d=await fileToDataUrl(f); if(key==="activityProof")activityProof=d; else imageData[key]=d; document.getElementById(preview).innerHTML=`<img src="${d}">`}
+medalPhotoFile.onchange=()=>setFile("medalPhotoFile","medalPhoto","medalPhotoPreview"); mapPhotoFile.onchange=()=>setFile("mapPhotoFile","mapPhoto","mapPhotoPreview"); proofPhotoFile.onchange=()=>setFile("proofPhotoFile","proofPhoto","proofPhotoPreview"); activityProofFile.onchange=()=>setFile("activityProofFile","activityProof","activityProofPreview");
+
+function medalCard(m){return `<div class="medal-card" onclick="openDetail(${m.id})"><div class="medal-img">${imgHTML(m.medalPhoto)}</div><h4>${m.challengeName}</h4><p>${m.company}</p><p>${Math.round(progress(m)*10)/10}/${m.distance} ${m.unit} · ${pct(m)}%</p></div>`}
+function activityCard(a,controls=false){let m=medals.find(x=>+x.id===+a.medalId);return `<div class="activity"><div class="thumb">${imgHTML(a.proof,"👟")}</div><div style="flex:1"><h4>${a.type} · ${a.distance} ${a.unit}</h4><p>${a.date} · ${m?m.challengeName:"Unknown"}</p><p>${a.notes||""}</p>${controls?`<button class="btn" onclick="editActivity(${a.id})">Edit</button> <button class="btn danger" onclick="deleteActivity(${a.id})">Delete</button>`:""}</div></div>`}
+function barChart(id,data){let e=document.getElementById(id);let arr=Object.entries(data).sort((a,b)=>b[1]-a[1]);if(!arr.length){e.innerHTML="<p class='muted'>No data yet.</p>";return}let max=Math.max(...arr.map(x=>x[1]),1);e.innerHTML=arr.map(([k,v])=>`<div class="bar-row"><div class="bar-top"><span>${k}</span><span>${Math.round(v*10)/10}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,v/max*100)}%"></div></div></div>`).join("")}
+function group(items,k,v=()=>1){return items.reduce((a,x)=>{let key=k(x)||"Unknown";a[key]=(a[key]||0)+(+v(x)||0);return a},{})}
+
+
+function csvEscape(v){let t=String(v??"");return (t.includes(",")||t.includes('"')||t.includes("\n"))?'"'+t.replaceAll('"','""')+'"':t}
+function parseCSV(text){
+ let rows=[],row=[],val="",q=false;
+ for(let i=0;i<text.length;i++){let c=text[i],n=text[i+1];
+  if(c=='"'&&q&&n=='"'){val+='"';i++} else if(c=='"'){q=!q}
+  else if(c==","&&!q){row.push(val);val=""}
+  else if((c=="\n"||c=="\r")&&!q){if(val||row.length){row.push(val);rows.push(row);row=[];val=""} if(c=="\r"&&n=="\n")i++}
+  else val+=c;
+ }
+ if(val||row.length){row.push(val);rows.push(row)}
+ if(!rows.length)return[];
+ let heads=rows[0].map(h=>h.trim());
+ return rows.slice(1).filter(r=>r.some(c=>c.trim())).map(r=>{let o={};heads.forEach((h,i)=>o[h]=(r[i]||"").trim());return o})
+}
+function renderLibrary(){
+ let q=(document.getElementById("librarySearch")?.value||"").toLowerCase();
+ let list=library.filter(x=>`${x.company} ${x.challenge_name} ${x.route_or_theme}`.toLowerCase().includes(q));
+ let el=document.getElementById("libraryList"); if(!el)return;
+ el.innerHTML=list.map((x,i)=>{let real=library.indexOf(x);return `<div class="library-card" onclick="useLibraryChallenge(${real})"><span class="tag">${x.company||"Unknown"}</span><h4>${x.challenge_name||"Untitled"}</h4><p>${x.distance_value||0} ${x.distance_unit||""} · ${x.route_or_theme||""}</p><p>${x.notes||""}</p></div>`}).join("") || "<p class='muted'>No challenges found.</p>";
+}
+function useLibraryChallenge(i){
+ let x=library[i]; if(!x)return;
+ clearMedalForm();
+ company.value=x.company||"";
+ challengeName.value=x.challenge_name||"";
+ distanceValue.value=x.distance_value||"";
+ distanceUnit.value=x.distance_unit||"km";
+ routeTheme.value=x.route_or_theme||"";
+ notes.value=x.notes||"";
+ status.value="In Progress";
+ showPage("add");
+}
+function downloadLibraryTemplate(){
+ let headers=["company","challenge_name","distance_value","distance_unit","route_or_theme","source_url","notes"];
+ let sample=["The Conqueror","Hadrian's Wall","90","mi","Roman wall route across Northern England","","Example notes"];
+ let csv=headers.join(",")+"\n"+sample.map(csvEscape).join(",");
+ let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="conquest-challenge-template.csv";a.click();
+}
+function exportLibrary(){
+ let headers=["company","challenge_name","distance_value","distance_unit","route_or_theme","source_url","notes"];
+ let csv=[headers.join(","),...library.map(r=>headers.map(h=>csvEscape(r[h])).join(","))].join("\n");
+ let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="conquest-challenge-library.csv";a.click();
+}
+
+function render(){
+ updateWon(); save();
+ let won=medals.filter(m=>m.status==="Won").length,total=activities.reduce((s,a)=>s+(+a.distance||0),0);
+ statWon.textContent=won; statDistance.textContent=Math.round(total*10)/10; statActs.textContent=activities.length; if(document.getElementById("profileMedals")){profileMedals.textContent=medals.length; profileActivities.textContent=activities.length;}
+ activityMedalSelect.innerHTML=medals.map(m=>`<option value="${m.id}">${m.company} — ${m.challengeName}</option>`).join("");
+ let current=medals.find(m=>m.status==="In Progress")||medals[0];
+ if(current){let p=pct(current);homePct.textContent=p;homeRing.style.background=`conic-gradient(var(--neon) 0deg ${p*3.6}deg, rgba(255,255,255,.08) ${p*3.6}deg 360deg)`;homeMsg.textContent=p>=100?"Medal conquered!":"Keep conquering!";currentChallenge.innerHTML=`<div class="card challenge" onclick="openDetail(${current.id})"><span class="tag">${current.company}</span><h4>${current.challengeName}</h4><div class="muted">${Math.round(progress(current)*10)/10} / ${current.distance} ${current.unit} completed</div><div class="progress"><span style="width:${p}%"></span></div></div>`}
+ recentMedals.innerHTML=medals.slice(0,3).map(medalCard).join(""); allMedals.innerHTML=medals.map(medalCard).join("");
+ activityList.innerHTML=activities.slice(0,8).map(a=>activityCard(a)).join("");
+ barChart("monthlyChart",group(activities,a=>(a.date||"").slice(0,7),a=>a.distance)); barChart("typeChart",group(activities,a=>a.type,a=>a.distance)); barChart("companyChart",group(medals,m=>m.company));
+ renderBadges(); renderLibrary();
+}
+function renderBadges(){let total=activities.reduce((s,a)=>s+(+a.distance||0),0),won=medals.filter(m=>m.status==="Won").length,streak=activities.length>=7;let defs=[["👟","First Steps",activities.length>=1],["🔥","On Fire",activities.length>=5],["🏆","Medal Winner",won>=1],["🛡️","Conqueror",won>=3],["📏","100 Distance",total>=100],["7","Week Warrior",streak]];let unlocked=defs.filter(x=>x[2]).length;achievementCount.textContent=`${unlocked} / ${defs.length}`;achievementBar.style.width=(unlocked/defs.length*100)+"%";badges.innerHTML=defs.map(d=>`<div class="badge ${d[2]?"":"locked"}"><div class="badge-icon">${d[2]?d[0]:"🔒"}</div><strong>${d[1]}</strong><span>${d[2]?"Unlocked":"Locked"}</span></div>`).join("")}
+
+medalForm.onsubmit=e=>{e.preventDefault();let id=editMedalId.value?+editMedalId.value:Date.now();let data={id,company:company.value,challengeName:challengeName.value,distance:+distanceValue.value||0,unit:distanceUnit.value,initial:+completedValue.value||0,status:status.value,route:routeTheme.value,notes:notes.value,medalPhoto:imageData.medalPhoto,mapPhoto:imageData.mapPhoto,proofPhoto:imageData.proofPhoto};let i=medals.findIndex(m=>m.id===id);if(i>=0)medals[i]=data;else medals.unshift(data);clearMedalForm();openDetail(id)}
+activityForm.onsubmit=e=>{e.preventDefault();let id=editActivityId.value?+editActivityId.value:Date.now();let data={id,medalId:+activityMedalSelect.value,date:activityDate.value,type:activityType.value,distance:+activityDistance.value||0,unit:activityUnit.value,notes:activityNotes.value,proof:activityProof};let i=activities.findIndex(a=>a.id===id);if(i>=0)activities[i]=data;else activities.unshift(data);clearActivityForm();openDetail(data.medalId)}
+function clearMedalForm(){medalForm.reset();editMedalId.value="";medalFormTitle.textContent="Add Medal";imageData={medalPhoto:"",mapPhoto:"",proofPhoto:""};["medalPhotoPreview","mapPhotoPreview","proofPhotoPreview"].forEach(id=>document.getElementById(id).textContent=id.includes("medal")?"No photo":id.includes("map")?"No map":"No proof")}
+function clearActivityForm(){activityForm.reset();editActivityId.value="";activityFormTitle.textContent="Log Activity";activityDate.value=new Date().toISOString().slice(0,10);activityProof="";activityProofPreview.textContent="No proof"}
+function openDetail(id){let m=medals.find(x=>x.id===id);if(!m)return;let acts=activities.filter(a=>+a.medalId===+id);detailContent.innerHTML=`<div class="card"><div class="medal-img" style="height:220px">${imgHTML(m.medalPhoto)}</div><span class="tag">${m.company}</span><h2 style="font-size:34px;letter-spacing:-.06em;margin:10px 0">${m.challengeName}</h2><p class="muted">${m.route||""}</p><div class="progress"><span style="width:${pct(m)}%"></span></div><p>${Math.round(progress(m)*10)/10} / ${m.distance} ${m.unit} · ${pct(m)}%</p><button class="btn primary" onclick="editMedal(${m.id})">Edit</button> <button class="btn danger" onclick="deleteMedal(${m.id})">Delete</button></div><div class="card"><h3>Notes</h3><p class="muted">${m.notes||"No notes"}</p></div><div class="card"><h3>Map</h3><div class="preview" style="height:180px">${imgHTML(m.mapPhoto,"No map uploaded")}</div></div><div class="card"><h3>Proof</h3><div class="preview" style="height:180px">${imgHTML(m.proofPhoto,"No proof uploaded")}</div></div><div class="section-title"><h3>Activities</h3><a onclick="prefillLog(${m.id})">Log</a></div>${acts.map(a=>activityCard(a,true)).join("")||"<p class='muted'>No activities yet.</p>"}`;showPage("detail")}
+function editMedal(id){let m=medals.find(x=>x.id===id);if(!m)return;editMedalId.value=m.id;medalFormTitle.textContent="Edit Medal";company.value=m.company;challengeName.value=m.challengeName;distanceValue.value=m.distance;distanceUnit.value=m.unit;completedValue.value=m.initial;status.value=m.status;routeTheme.value=m.route;notes.value=m.notes;imageData={medalPhoto:m.medalPhoto,mapPhoto:m.mapPhoto,proofPhoto:m.proofPhoto};medalPhotoPreview.innerHTML=imgHTML(m.medalPhoto,"No photo");mapPhotoPreview.innerHTML=imgHTML(m.mapPhoto,"No map");proofPhotoPreview.innerHTML=imgHTML(m.proofPhoto,"No proof");showPage("add")}
+function deleteMedal(id){if(confirm("Delete this medal and its activities?")){medals=medals.filter(m=>m.id!==id);activities=activities.filter(a=>+a.medalId!==+id);showPage("medals")}}
+function prefillLog(id){activityMedalSelect.value=id;showPage("log")}
+function editActivity(id){let a=activities.find(x=>x.id===id);if(!a)return;editActivityId.value=a.id;activityFormTitle.textContent="Edit Activity";activityMedalSelect.value=a.medalId;activityDate.value=a.date;activityType.value=a.type;activityDistance.value=a.distance;activityUnit.value=a.unit;activityNotes.value=a.notes;activityProof=a.proof;activityProofPreview.innerHTML=imgHTML(a.proof,"No proof");showPage("log")}
+function deleteActivity(id){if(confirm("Delete this activity?")){activities=activities.filter(a=>a.id!==id);render()}}
+function exportBackup(){let blob=new Blob([JSON.stringify({user:currentUser,medals,activities,library,exported:new Date().toISOString()},null,2)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="conquest-backup.json";a.click()}
+
+csvFile.onchange=async e=>{
+ let f=e.target.files[0]; if(!f)return;
+ let rows=parseCSV(await f.text()).filter(r=>r.company&&r.challenge_name&&r.distance_value&&r.distance_unit);
+ if(!rows.length){alert("No valid rows found. Make sure the CSV has company, challenge_name, distance_value and distance_unit columns.");return}
+ library=rows; save(); renderLibrary(); alert(`Imported ${rows.length} challenges.`);
+};
+
+backupFile.onchange=async e=>{let f=e.target.files[0];if(!f)return;let d=JSON.parse(await f.text());if(d.medals&&d.activities&&confirm("Restore backup?")){medals=d.medals;activities=d.activities;library=d.library||library;save();render();showPage("home")}}
+function clearAll(){if(confirm("Clear all Conquest data for this profile?")){medals=[];activities=[];library=[];save();render();showPage("home")}}
+clearActivityForm();
+if(firebaseConfigured && auth){
+  auth.onAuthStateChanged(async user => {
+    if(user){
+      currentUser = { id:user.uid, name:user.displayName || user.email.split("@")[0], email:user.email };
+      await startApp();
+    } else {
+      document.getElementById("authScreen").classList.add("active");
+      document.getElementById("mainApp").style.display="none";
+      document.getElementById("bottomNav").style.display="none";
+    }
+  });
+} else {
+  document.getElementById("authScreen").classList.add("active");
+  document.getElementById("mainApp").style.display="none";
+  document.getElementById("bottomNav").style.display="none";
+}
+</script>
+</body>
+</html>
