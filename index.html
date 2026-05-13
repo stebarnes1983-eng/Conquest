@@ -1198,7 +1198,7 @@ function renderStepAchievements(){
       trophyNote.textContent = `${trophyUnlockedCount} / ${STEP_TROPHIES.length} trophies lit`;
     }
     trophyWrap.innerHTML = STEP_TROPHIES.map((t, i)=>{
-      const done = isTrophyUnlocked(t);
+      const done = (i === 3) ? true : isTrophyUnlocked(t); // TEST: force Platinum light on
       const slotClass = `cabinet-hotspot hs${i+1} ${done ? "unlocked" : "locked"}`;
       const safeTitle = `${t.tier} — ${t.name}`;
       return `<div class="${slotClass}" aria-label="${safeTitle}" title="${safeTitle}">
