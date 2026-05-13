@@ -1406,6 +1406,93 @@
       display:block !important;
     }
 
+  
+    /* FINAL neon green reference bottom nav override */
+    #bottomNav{
+      position:fixed !important;
+      left:50% !important;
+      bottom:0 !important;
+      transform:translateX(-50%) !important;
+      width:min(100vw, 430px) !important;
+      height:92px !important;
+      display:grid !important;
+      grid-template-columns:repeat(5, 1fr) !important;
+      align-items:center !important;
+      padding:6px 4px calc(7px + env(safe-area-inset-bottom)) !important;
+      background:linear-gradient(180deg, rgba(5,9,16,.88), rgba(1,5,11,.99)) !important;
+      border-top:1px solid rgba(255,255,255,.08) !important;
+      box-shadow:0 -20px 44px rgba(0,0,0,.55) !important;
+      z-index:99999 !important;
+      pointer-events:auto !important;
+      border-radius:0 !important;
+    }
+
+    #bottomNav button,
+    #bottomNav .nav-btn{
+      border:0 !important;
+      background:transparent !important;
+      color:rgba(230,236,246,.70) !important;
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:center !important;
+      gap:5px !important;
+      height:78px !important;
+      min-width:0 !important;
+      padding:0 !important;
+      margin:0 !important;
+      font-size:13px !important;
+      line-height:1 !important;
+      font-weight:800 !important;
+      font-family:inherit !important;
+      text-decoration:none !important;
+      appearance:none !important;
+      -webkit-appearance:none !important;
+      border-radius:0 !important;
+    }
+
+    #bottomNav button.active,
+    #bottomNav .nav-btn.active{
+      color:#b8ff10 !important;
+      text-shadow:0 0 16px rgba(184,255,16,.70) !important;
+    }
+
+    #bottomNav .nav-icon,
+    #bottomNav svg{
+      width:28px !important;
+      height:28px !important;
+      display:block !important;
+      stroke:currentColor !important;
+      fill:none !important;
+      stroke-width:2.25 !important;
+      stroke-linecap:round !important;
+      stroke-linejoin:round !important;
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.08)) !important;
+    }
+
+    #bottomNav .active .nav-icon,
+    #bottomNav .active svg{
+      color:#b8ff10 !important;
+      filter:drop-shadow(0 0 13px rgba(184,255,16,.85)) !important;
+    }
+
+    #bottomNav .active .home-fill{
+      fill:#b8ff10 !important;
+      stroke:#b8ff10 !important;
+    }
+
+    #bottomNav .nav-label{
+      display:block !important;
+      font-size:13px !important;
+      font-weight:850 !important;
+      color:currentColor !important;
+      letter-spacing:-.01em !important;
+    }
+
+    #page-home.exact-home-page{
+      padding-bottom:118px !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1750,6 +1837,120 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 setTimeout(rebuildConquestBottomNav, 1200);
 
+
+function finalNeonBottomNav(){
+  const nav = document.getElementById("bottomNav") || document.querySelector(".bottom-nav");
+  if(!nav) return;
+
+  const activePage = document.querySelector(".page.active")?.id?.replace("page-", "") || "home";
+
+  nav.id = "bottomNav";
+  nav.className = "bottom-nav";
+
+  const items = [
+    {
+      page:"home",
+      label:"Home",
+      icon:`<svg class="nav-icon home-fill" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 10.8 12 3l9 7.8"/>
+        <path d="M5 10v10h14V10"/>
+        <path d="M9 20v-6h6v6"/>
+      </svg>`
+    },
+    {
+      page:"log",
+      label:"Workouts",
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 7v10"/>
+        <path d="M18 7v10"/>
+        <path d="M3 9v6"/>
+        <path d="M21 9v6"/>
+        <path d="M6 12h12"/>
+      </svg>`
+    },
+    {
+      page:"progress",
+      label:"Progress",
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 20h16"/>
+        <path d="M7 20V10"/>
+        <path d="M12 20V5"/>
+        <path d="M17 20v-8"/>
+      </svg>`
+    },
+    {
+      page:"achievements",
+      label:"Achievements",
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 21h8"/>
+        <path d="M12 17v4"/>
+        <path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/>
+        <path d="M7 7H4a3 3 0 0 0 3 3"/>
+        <path d="M17 7h3a3 3 0 0 1-3 3"/>
+      </svg>`
+    },
+    {
+      page:"profile",
+      label:"Profile",
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21a8 8 0 0 1 16 0"/>
+      </svg>`
+    }
+  ];
+
+  nav.innerHTML = items.map(item => `
+    <button class="nav-btn ${item.page === activePage ? "active" : ""}" data-page="${item.page}" type="button" aria-label="${item.label}">
+      ${item.icon}
+      <span class="nav-label">${item.label}</span>
+    </button>
+  `).join("");
+
+  nav.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.addEventListener("click", function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const page = this.dataset.page;
+      if (typeof showPage === "function") {
+        showPage(page, this);
+      }
+      setTimeout(finalNeonBottomNav, 20);
+    });
+  });
+}
+
+window.upgradeBottomNavIcons = finalNeonBottomNav;
+window.rebuildConquestBottomNav = finalNeonBottomNav;
+
+document.addEventListener("DOMContentLoaded", function(){
+  finalNeonBottomNav();
+  setTimeout(finalNeonBottomNav, 50);
+  setTimeout(finalNeonBottomNav, 250);
+  setTimeout(finalNeonBottomNav, 800);
+});
+setTimeout(finalNeonBottomNav, 1200);
+setInterval(function(){
+  const nav = document.getElementById("bottomNav");
+  if(nav && (
+    nav.innerText.includes("Log") ||
+    nav.innerText.includes("🏆") ||
+    nav.innerText.includes("📊") ||
+    nav.innerText.includes("👟") ||
+    !nav.innerText.includes("Workouts")
+  )){
+    finalNeonBottomNav();
+  }
+}, 700);
+
+
+setTimeout(function(){
+  const homePage = document.getElementById("page-home");
+  if(homePage && homePage.classList.contains("active")){
+    document.body.classList.add("home-exact-active");
+  }
+  finalNeonBottomNav();
+}, 500);
+
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js">
 function safeRenderStepAchievementsSoon(){
@@ -2043,6 +2244,7 @@ function showPage(page,btn){
 
   document.body.classList.toggle("home-exact-active", page==="home");
   render();
+  setTimeout(finalNeonBottomNav, 10);
 }
 function totalFor(id){return activities.filter(a=>+a.medalId===+id).reduce((s,a)=>s+(+a.distance||0),0)}
 function progress(m){return (+m.initial||0)+totalFor(m.id)}
