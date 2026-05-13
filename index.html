@@ -1580,67 +1580,15 @@
     }
 
   
-    /* Remove old top Conquest header/icons from the new Home screen */
-    body.home-exact-active #mainApp > .top,
-    body.home-exact-active .top,
-    body.home-exact-active .app > .top,
-    body.home-exact-active header.top,
-    body.home-exact-active .app-header,
-    body.home-exact-active .header,
-    body.home-exact-active .brand-row{
-      display:none !important;
-      visibility:hidden !important;
-      height:0 !important;
-      min-height:0 !important;
-      max-height:0 !important;
-      margin:0 !important;
-      padding:0 !important;
-      overflow:hidden !important;
-      pointer-events:none !important;
-    }
-
-    body.home-exact-active #mainApp,
-    body.home-exact-active .app{
-      padding-top:0 !important;
-      margin-top:0 !important;
-    }
-
-    body.home-exact-active #page-home.exact-home-page{
-      margin-top:0 !important;
-      padding-top:0 !important;
-    }
-
-    body.home-exact-active .exact-home-shell{
-      margin-top:0 !important;
-      padding-top:0 !important;
-    }
-
-  
-    /* HARD REMOVE old top header/chrome on Home */
-    body.home-exact-active #profileInitial,
-    body.home-exact-active #cloudStatus,
-    body.home-exact-active #cloudButton,
-    body.home-exact-active #libraryButton,
-    body.home-exact-active #profileButton,
-    body.home-exact-active [onclick*="showPage('library')"],
-    body.home-exact-active [onclick*='showPage("library")'],
-    body.home-exact-active [onclick*="showPage('profile')"].top-pill,
-    body.home-exact-active [onclick*='showPage("profile")'].top-pill{
-      display:none !important;
-      visibility:hidden !important;
-      opacity:0 !important;
-      pointer-events:none !important;
-    }
-
-    body.home-exact-active .top:has(#profileInitial),
-    body.home-exact-active .top:has([onclick*="library"]),
-    body.home-exact-active .top:has([onclick*="profile"]),
-    body.home-exact-active .top:has(.brand),
-    body.home-exact-active .topbar,
-    body.home-exact-active .app-top,
-    body.home-exact-active .main-top,
-    body.home-exact-active .brandbar,
-    body.home-exact-active .toolbar{
+    /* SAFE top-bar removal: hide only the old app chrome/header, never the Home page */
+    #mainApp > .top,
+    .app > .top,
+    header.top,
+    .topbar,
+    .app-top,
+    .main-top,
+    .brandbar,
+    .toolbar{
       display:none !important;
       visibility:hidden !important;
       height:0 !important;
@@ -1653,62 +1601,20 @@
       opacity:0 !important;
     }
 
-    /* Backup: if the header does not have a class, hide the first child before page-home when Home is active */
-    body.home-exact-active #mainApp > *:has(#profileInitial),
-    body.home-exact-active #mainApp > *:has(#cloudStatus),
-    body.home-exact-active #mainApp > *:has([onclick*="library"]),
-    body.home-exact-active #mainApp > *:has([onclick*="profile"]){
-      display:none !important;
-      height:0 !important;
-      margin:0 !important;
-      padding:0 !important;
-      overflow:hidden !important;
-      opacity:0 !important;
-      pointer-events:none !important;
-    }
-
-    body.home-exact-active #mainApp,
-    body.home-exact-active .app,
-    body.home-exact-active #page-home{
+    #mainApp,
+    .app{
       padding-top:0 !important;
       margin-top:0 !important;
     }
 
-  
-    /* Startup refresh fix: hide old top bar whenever Home page is active, even before JS sets body class */
-    body:has(#page-home.active) #mainApp > .top,
-    body:has(#page-home.active) .top,
-    body:has(#page-home.active) .app > .top,
-    body:has(#page-home.active) header.top,
-    body:has(#page-home.active) .app-header,
-    body:has(#page-home.active) .header,
-    body:has(#page-home.active) .brand-row,
-    body:has(#page-home.active) .topbar,
-    body:has(#page-home.active) .app-top,
-    body:has(#page-home.active) .main-top,
-    body:has(#page-home.active) .brandbar,
-    body:has(#page-home.active) .toolbar,
-    body:has(#page-home.active) #mainApp > *:has(#profileInitial),
-    body:has(#page-home.active) #mainApp > *:has(#cloudStatus),
-    body:has(#page-home.active) #mainApp > *:has([onclick*="library"]),
-    body:has(#page-home.active) #mainApp > *:has([onclick*="profile"]){
-      display:none !important;
-      visibility:hidden !important;
-      height:0 !important;
-      min-height:0 !important;
-      max-height:0 !important;
-      margin:0 !important;
-      padding:0 !important;
-      overflow:hidden !important;
-      pointer-events:none !important;
-      opacity:0 !important;
+    #page-home.exact-home-page{
+      margin-top:0 !important;
+      padding-top:0 !important;
     }
 
-    body:has(#page-home.active) #mainApp,
-    body:has(#page-home.active) .app,
-    body:has(#page-home.active) #page-home{
-      padding-top:0 !important;
+    .exact-home-shell{
       margin-top:0 !important;
+      padding-top:0 !important;
     }
 
   </style>
@@ -2199,26 +2105,6 @@ window.addEventListener('error', function(e){
 
 <script>
 
-/* Startup refresh fix: Home is active by default, so apply the Home class immediately */
-(function(){
-  document.documentElement.classList.add("conquest-starting-home");
-  function applyHomeStartupFix(){
-    const homePage = document.getElementById("page-home");
-    if(homePage && homePage.classList.contains("active")){
-      document.body.classList.add("home-exact-active");
-      if(typeof hardRemoveOldHomeHeader === "function") hardRemoveOldHomeHeader();
-      if(typeof finalNeonBottomNav === "function") finalNeonBottomNav();
-    }
-  }
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", applyHomeStartupFix);
-  }else{
-    applyHomeStartupFix();
-  }
-  [0,25,75,150,300,600,1000,1800].forEach(ms => setTimeout(applyHomeStartupFix, ms));
-})();
-
-
 // FIREBASE SETUP
 // Replace these values with your Firebase web app config from Firebase Console > Project Settings.
 const firebaseConfig = {
@@ -2482,7 +2368,7 @@ function showPage(page,btn){
 
   document.body.classList.toggle("home-exact-active", page==="home");
   render();
-  setTimeout(finalNeonBottomNav, 10); setTimeout(hardRemoveOldHomeHeader, 15);
+  setTimeout(finalNeonBottomNav, 10);
 }
 function totalFor(id){return activities.filter(a=>+a.medalId===+id).reduce((s,a)=>s+(+a.distance||0),0)}
 function progress(m){return (+m.initial||0)+totalFor(m.id)}
@@ -2618,7 +2504,7 @@ async function startApp(isNew=false){
  authStatus("Opening Conquest...");
  document.getElementById("authScreen").classList.remove("active");
  document.getElementById("mainApp").style.display="block";
- document.getElementById("bottomNav").style.display="grid"; document.body.classList.add("home-exact-active"); setTimeout(()=>{ if(typeof hardRemoveOldHomeHeader==="function") hardRemoveOldHomeHeader(); if(typeof finalNeonBottomNav==="function") finalNeonBottomNav(); }, 0);
+ document.getElementById("bottomNav").style.display="grid"; setTimeout(safeHideOldTopBar,0); setTimeout(finalNeonBottomNav,0);
  try{
    await loadUserData();
  }catch(err){
@@ -2983,90 +2869,48 @@ setInterval(function(){
 }, 700);
 
 
-function removeOldHomeTopHeader(){
-  if(!document.body.classList.contains("home-exact-active")) return;
+function safeHideOldTopBar(){
   const selectors = [
     "#mainApp > .top",
     ".app > .top",
     "header.top",
-    ".app-header",
-    ".header",
-    ".brand-row"
+    ".topbar",
+    ".app-top",
+    ".main-top",
+    ".brandbar",
+    ".toolbar"
   ];
-  selectors.forEach(sel => {
-    document.querySelectorAll(sel).forEach(el => {
-      el.style.setProperty("display", "none", "important");
-      el.style.setProperty("height", "0", "important");
-      el.style.setProperty("margin", "0", "important");
-      el.style.setProperty("padding", "0", "important");
-      el.style.setProperty("overflow", "hidden", "important");
+
+  selectors.forEach(sel=>{
+    document.querySelectorAll(sel).forEach(el=>{
+      el.style.setProperty("display","none","important");
+      el.style.setProperty("height","0","important");
+      el.style.setProperty("min-height","0","important");
+      el.style.setProperty("max-height","0","important");
+      el.style.setProperty("margin","0","important");
+      el.style.setProperty("padding","0","important");
+      el.style.setProperty("overflow","hidden","important");
+      el.style.setProperty("opacity","0","important");
+      el.style.setProperty("pointer-events","none","important");
     });
   });
-}
 
-document.addEventListener("DOMContentLoaded", function(){
-  setTimeout(removeOldHomeTopHeader, 50);
-  setTimeout(removeOldHomeTopHeader, 300);
-  setTimeout(removeOldHomeTopHeader, 1000);
-});
-
-setInterval(removeOldHomeTopHeader, 800);
-
-
-function hardRemoveOldHomeHeader(){
-  if(!document.body.classList.contains("home-exact-active")) return;
-
-  const suspects = [
-    document.getElementById("profileInitial"),
-    document.getElementById("cloudStatus"),
-    document.getElementById("cloudButton"),
-    ...document.querySelectorAll("[onclick*='library'], [onclick*='profile'], .top-pill")
-  ].filter(Boolean);
-
-  suspects.forEach(el => {
-    let box = el;
-    for(let i=0; i<6 && box && box !== document.body; i++){
-      const txt = (box.innerText || "").trim();
-      const hasConquest = txt.includes("CONQUEST") || txt.includes("Conquest");
-      const hasOldButtons = txt.includes("B") || txt.includes("📚") || txt.includes("☁") || txt.includes("☁️");
-      const rect = box.getBoundingClientRect ? box.getBoundingClientRect() : {height:999};
-      if((hasConquest || hasOldButtons || box.className.toString().includes("top")) && rect.height <= 170){
-        box.style.setProperty("display", "none", "important");
-        box.style.setProperty("height", "0", "important");
-        box.style.setProperty("min-height", "0", "important");
-        box.style.setProperty("max-height", "0", "important");
-        box.style.setProperty("margin", "0", "important");
-        box.style.setProperty("padding", "0", "important");
-        box.style.setProperty("overflow", "hidden", "important");
-        box.style.setProperty("opacity", "0", "important");
-        box.style.setProperty("pointer-events", "none", "important");
-        break;
-      }
-      box = box.parentElement;
+  // If those controls are separate, hide only the controls themselves, not their parent/page.
+  ["profileInitial","cloudStatus","cloudButton","libraryButton","profileButton"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.style.setProperty("display","none","important");
+      el.style.setProperty("visibility","hidden","important");
+      el.style.setProperty("opacity","0","important");
+      el.style.setProperty("pointer-events","none","important");
     }
   });
-
-  const main = document.getElementById("mainApp");
-  if(main){
-    Array.from(main.children).forEach(child => {
-      if(child.id === "page-home" || child.id === "bottomNav") return;
-      const txt = (child.innerText || "").trim();
-      const rect = child.getBoundingClientRect ? child.getBoundingClientRect() : {height:999};
-      if(rect.height <= 170 && (txt.includes("CONQUEST") || txt.includes("📚") || txt.includes("☁") || txt.includes("B"))){
-        child.style.setProperty("display", "none", "important");
-        child.style.setProperty("height", "0", "important");
-        child.style.setProperty("margin", "0", "important");
-        child.style.setProperty("padding", "0", "important");
-        child.style.setProperty("overflow", "hidden", "important");
-      }
-    });
-  }
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  [50,150,350,800,1500].forEach(ms => setTimeout(hardRemoveOldHomeHeader, ms));
+  [0,50,150,300,700,1200,2000].forEach(ms=>setTimeout(safeHideOldTopBar, ms));
 });
-setInterval(hardRemoveOldHomeHeader, 500);
+setInterval(safeHideOldTopBar, 1000);
 
 </script>
 </body>
