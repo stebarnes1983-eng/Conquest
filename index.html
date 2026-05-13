@@ -815,53 +815,50 @@
     }
 
   
-    /* Cleaner premium Home dashboard layout */
+    /* Real patched premium Home dashboard */
+    #page-home{
+      padding:2px 0 14px;
+    }
     .home-premium{
-      padding:18px 26px 128px;
       display:flex;
       flex-direction:column;
-      gap:20px;
+      gap:18px;
     }
-
     .home-hero{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
-      margin-top:4px;
+      margin:4px 0 2px;
     }
-
     .home-brand{
       display:flex;
       align-items:center;
       gap:12px;
       min-width:0;
     }
-
     .home-brand-mark{
-      width:48px;
-      height:48px;
+      width:50px;
+      height:50px;
       border-radius:16px;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg, rgba(184,255,16,.95), rgba(42,255,208,.28));
-      box-shadow:0 0 28px rgba(184,255,16,.25);
-      font-size:28px;
+      background:linear-gradient(135deg, rgba(184,255,16,.96), rgba(42,255,208,.20));
+      box-shadow:0 0 28px rgba(184,255,16,.22);
+      font-size:30px;
     }
-
     .home-brand-title{
-      font-size:31px;
+      font-size:28px;
       font-weight:950;
       font-style:italic;
       letter-spacing:.08em;
       color:#f7fbff;
-      text-shadow:0 0 18px rgba(255,255,255,.12);
       white-space:nowrap;
+      text-shadow:0 0 16px rgba(255,255,255,.10);
     }
-
     .home-bell{
-      width:44px;
-      height:44px;
+      width:46px;
+      height:46px;
       border-radius:16px;
       display:grid;
       place-items:center;
@@ -869,8 +866,8 @@
       background:rgba(255,255,255,.035);
       border:1px solid rgba(255,255,255,.08);
       position:relative;
+      flex:0 0 auto;
     }
-
     .home-bell::after{
       content:"";
       position:absolute;
@@ -882,54 +879,47 @@
       background:#b8ff10;
       box-shadow:0 0 12px rgba(184,255,16,.75);
     }
-
-    .home-greeting h1{
-      font-size:34px;
+    .home-greeting-clean h1{
+      font-size:32px;
       line-height:1.08;
-      margin:6px 0 6px;
+      margin:4px 0 6px;
       letter-spacing:-.055em;
       color:#f7fbff;
     }
-
-    .home-greeting p{
+    .home-greeting-clean p{
       margin:0;
-      font-size:18px;
+      font-size:17px;
       color:rgba(238,244,255,.68);
       font-weight:650;
     }
-
     .dashboard-grid{
       display:grid;
-      grid-template-columns:1.08fr .92fr;
-      gap:18px;
-      align-items:center;
-      margin-top:10px;
-    }
-
-    .daily-ring-card{
-      min-height:296px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
+      grid-template-columns:1fr;
       gap:14px;
+      align-items:center;
+      margin-top:2px;
     }
-
+    .daily-ring-card{
+      display:grid;
+      grid-template-columns:1fr;
+      place-items:center;
+      gap:12px;
+      padding:6px 0 0;
+    }
     .daily-ring{
-      width:242px;
-      height:242px;
+      width:235px;
+      height:235px;
       border-radius:999px;
       display:grid;
       place-items:center;
       position:relative;
       background:
         radial-gradient(circle at center, rgba(5,9,16,.98) 0 54%, transparent 55%),
-        conic-gradient(from -40deg, #b8ff10 0 60%, #35f2d2 60% 77%, rgba(255,255,255,.13) 77% 100%);
+        conic-gradient(from -40deg, #b8ff10 0 var(--goal-deg, 280deg), #35f2d2 var(--goal-deg, 280deg) 300deg, rgba(255,255,255,.13) 300deg 360deg);
       box-shadow:
         0 0 36px rgba(184,255,16,.18),
         inset 0 0 30px rgba(0,0,0,.55);
     }
-
     .daily-ring::before{
       content:"";
       position:absolute;
@@ -938,21 +928,18 @@
       background:linear-gradient(180deg, rgba(3,7,13,.98), rgba(9,15,25,.98));
       box-shadow:inset 0 0 32px rgba(0,0,0,.65);
     }
-
     .daily-ring-inner{
       position:relative;
       z-index:1;
       text-align:center;
     }
-
     .daily-score{
-      font-size:68px;
+      font-size:66px;
       line-height:.92;
       font-weight:950;
       letter-spacing:-.08em;
       color:#fff;
     }
-
     .daily-score span{
       display:block;
       margin-top:8px;
@@ -961,14 +948,12 @@
       letter-spacing:-.03em;
       color:rgba(238,244,255,.62);
     }
-
     .daily-mini{
       margin-top:10px;
       font-size:13px;
       color:rgba(238,244,255,.70);
       font-weight:800;
     }
-
     .daily-fire{
       text-align:center;
       color:#b8ff10;
@@ -976,7 +961,6 @@
       font-weight:950;
       text-shadow:0 0 18px rgba(184,255,16,.35);
     }
-
     .daily-fire small{
       display:block;
       color:rgba(238,244,255,.70);
@@ -985,13 +969,11 @@
       font-weight:750;
       text-shadow:none;
     }
-
     .stat-stack{
       display:flex;
       flex-direction:column;
-      gap:12px;
+      gap:11px;
     }
-
     .stat-card-clean{
       min-height:76px;
       border-radius:18px;
@@ -1003,7 +985,6 @@
       border:1px solid rgba(255,255,255,.085);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
     }
-
     .stat-card-clean .stat-emoji{
       width:42px;
       height:42px;
@@ -1012,30 +993,26 @@
       font-size:30px;
       filter:drop-shadow(0 0 12px rgba(255,255,255,.14));
     }
-
     .stat-card-clean .stat-title{
       font-size:14px;
       color:rgba(238,244,255,.68);
       font-weight:800;
       margin-bottom:3px;
     }
-
     .stat-card-clean .stat-value{
       font-size:28px;
       color:#fff;
       font-weight:950;
       letter-spacing:-.04em;
     }
-
     .stat-card-clean .stat-value small{
       font-size:14px;
       color:rgba(238,244,255,.70);
       font-weight:750;
       margin-left:3px;
     }
-
     .today-workout-card{
-      min-height:252px;
+      min-height:232px;
       border-radius:24px;
       overflow:hidden;
       position:relative;
@@ -1043,13 +1020,12 @@
       display:flex;
       align-items:flex-end;
       background:
-        linear-gradient(90deg, rgba(4,8,14,.92) 0%, rgba(8,14,24,.78) 45%, rgba(8,14,24,.28) 100%),
-        radial-gradient(circle at 80% 35%, rgba(42,255,208,.12), transparent 42%),
+        linear-gradient(90deg, rgba(4,8,14,.94) 0%, rgba(8,14,24,.78) 52%, rgba(8,14,24,.38) 100%),
+        radial-gradient(circle at 78% 35%, rgba(42,255,208,.13), transparent 42%),
         linear-gradient(135deg, rgba(13,24,38,.96), rgba(3,7,13,.98));
       border:1px solid rgba(255,255,255,.10);
       box-shadow:0 24px 60px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045);
     }
-
     .today-workout-card::after{
       content:"";
       position:absolute;
@@ -1064,7 +1040,6 @@
       opacity:.95;
       pointer-events:none;
     }
-
     .workout-figure{
       position:absolute;
       right:0;
@@ -1072,30 +1047,23 @@
       width:46%;
       height:100%;
       opacity:.86;
-      background:
-        radial-gradient(ellipse at 70% 50%, rgba(255,255,255,.18), transparent 24%),
-        linear-gradient(135deg, transparent 30%, rgba(42,255,208,.10));
-      filter:saturate(1.06);
       pointer-events:none;
     }
-
     .workout-figure::before{
       content:"🏋️";
       position:absolute;
-      right:22%;
-      top:27%;
-      font-size:98px;
+      right:18%;
+      top:30%;
+      font-size:94px;
       transform:rotate(-8deg);
-      opacity:.85;
+      opacity:.82;
       filter:drop-shadow(0 0 22px rgba(0,0,0,.42));
     }
-
     .workout-content{
       position:relative;
       z-index:1;
-      max-width:62%;
+      max-width:68%;
     }
-
     .section-kicker{
       color:#b8ff10;
       font-size:15px;
@@ -1104,41 +1072,38 @@
       text-transform:uppercase;
       margin-bottom:18px;
     }
-
     .workout-title{
-      font-size:28px;
+      font-size:27px;
       line-height:1.08;
       font-weight:950;
       letter-spacing:-.045em;
       color:#fff;
       margin-bottom:13px;
     }
-
     .workout-meta{
       display:flex;
-      gap:14px;
+      flex-wrap:wrap;
+      gap:12px;
       color:rgba(238,244,255,.72);
       font-weight:800;
       font-size:14px;
-      margin-bottom:22px;
+      margin-bottom:20px;
     }
-
     .start-workout-btn{
       border:0;
       border-radius:18px;
-      padding:15px 20px;
-      min-width:210px;
+      padding:15px 18px;
+      min-width:190px;
       display:inline-flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
       color:#061007;
-      font-size:18px;
+      font-size:17px;
       font-weight:950;
       background:linear-gradient(135deg, #d9ff1a, #9eff00);
       box-shadow:0 0 28px rgba(184,255,16,.26);
     }
-
     .start-workout-btn span{
       width:34px;
       height:34px;
@@ -1149,38 +1114,35 @@
       background:#07101b;
       font-size:24px;
     }
-
     .preview-head{
       display:flex;
       justify-content:space-between;
       align-items:center;
       margin:2px 2px -2px;
     }
-
     .preview-title{
       color:rgba(238,244,255,.78);
-      font-size:18px;
+      font-size:17px;
       font-weight:950;
       letter-spacing:.06em;
       text-transform:uppercase;
     }
-
     .preview-link{
       color:rgba(238,244,255,.66);
       font-weight:850;
       font-size:15px;
+      background:transparent;
+      border:0;
     }
-
     .achievement-preview-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:14px;
+      gap:10px;
     }
-
     .achievement-preview-card{
-      min-height:156px;
+      min-height:142px;
       border-radius:20px;
-      padding:16px 10px;
+      padding:12px 8px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -1190,53 +1152,36 @@
       border:1px solid rgba(255,255,255,.085);
       box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
     }
-
     .achievement-preview-badge{
-      width:74px;
-      height:74px;
-      border-radius:22px;
+      width:62px;
+      height:62px;
+      border-radius:20px;
       display:grid;
       place-items:center;
-      font-size:39px;
+      font-size:32px;
       margin-bottom:12px;
       background:linear-gradient(135deg, rgba(184,255,16,.13), rgba(255,255,255,.04));
       border:2px solid rgba(255,210,70,.46);
       box-shadow:0 0 24px rgba(255,210,70,.18);
+      color:#f7fbff;
+      font-weight:950;
     }
-
+    .achievement-preview-badge.orange{border-color:rgba(255,112,35,.56);box-shadow:0 0 24px rgba(255,112,35,.18)}
+    .achievement-preview-badge.purple{border-color:rgba(198,111,255,.62);box-shadow:0 0 24px rgba(198,111,255,.18)}
     .achievement-preview-card strong{
-      font-size:15px;
+      font-size:14px;
       color:#fff;
       font-weight:950;
       line-height:1.1;
     }
-
     .achievement-preview-card span{
       margin-top:6px;
       color:rgba(238,244,255,.64);
-      font-size:13px;
+      font-size:12px;
       font-weight:750;
     }
 
-    @media (max-width:560px){
-      .home-premium{padding-left:18px;padding-right:18px;gap:18px}
-      .home-brand-title{font-size:25px}
-      .home-greeting h1{font-size:30px}
-      .dashboard-grid{grid-template-columns:1fr;gap:14px}
-      .daily-ring-card{min-height:auto}
-      .daily-ring{width:224px;height:224px}
-      .stat-stack{display:grid;grid-template-columns:1fr;gap:10px}
-      .today-workout-card{min-height:232px}
-      .workout-content{max-width:68%}
-      .workout-title{font-size:25px}
-      .start-workout-btn{min-width:184px;font-size:16px}
-      .achievement-preview-grid{gap:10px}
-      .achievement-preview-card{min-height:142px;padding:12px 8px}
-      .achievement-preview-badge{width:62px;height:62px;font-size:32px}
-    }
-
   </style>
-<!-- Conquest Premium Home V2 -->
 </head>
 <body>
 
@@ -1278,48 +1223,99 @@
     <div class="top"><div class="brand"><div class="logo">🛡️</div><h1>CONQUEST</h1></div><div style="display:flex;gap:8px;align-items:center"><div class="profile-chip" onclick="showPage('profile')"><div class="profile-avatar" id="profileInitial">U</div></div><button class="icon-btn" onclick="showPage('library')">📚</button><button class="icon-btn" onclick="showPage('backup')">☁️</button></div></div>
 
     <section id="page-home" class="page active">
-      <div class="greeting">
-        <h2><span id="homeGreeting">Good morning</span> 👊</h2>
-        <p>Conquer your route, log your progress, earn the medal.</p>
-      </div>
 
-      <div id="premiumHero"></div>
+      <div class="home-premium">
+        <div class="home-hero">
+          <div class="home-brand">
+            <div class="home-brand-mark">🛡️</div>
+            <div class="home-brand-title">CONQUEST</div>
+          </div>
+          <div class="home-bell" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+        </div>
 
-      <div class="quick-actions">
-        <button class="quick-action" onclick="showPage('log')"><div class="qa-icon">👟</div>Log Activity</button>
-        <button class="quick-action" onclick="showPage('library')"><div class="qa-icon">📚</div>Library</button>
-        <button class="quick-action" onclick="showPage('add')"><div class="qa-icon">🏅</div>Add Medal</button>
-      </div>
+        <div class="home-greeting-clean">
+          <h1><span id="homeGreeting">Good morning</span> 👊</h1>
+          <p>Every rep. Every step. Every win.</p>
+        </div>
 
-      <div class="level-strip">
-        <div class="level-badge" id="levelBadge">1</div>
-        <div>
-          <h4 id="levelTitle">Level 1 Conqueror</h4>
-          <p id="levelSub">Log activities to earn XP and level up.</p>
-          <div class="progress"><span id="levelBar" style="width:0%"></span></div>
+        <div class="dashboard-grid">
+          <div class="daily-ring-card">
+            <div class="daily-ring" id="dailyGoalRing">
+              <div class="daily-ring-inner">
+                <div class="daily-score"><span id="dailyGoalScoreMain">78</span><span>/ 100</span></div>
+                <div class="daily-mini">🛡️ Daily Goal</div>
+              </div>
+            </div>
+            <div class="daily-fire" id="dailyFireText">You’re on fire! 🔥<small>22 points to go</small></div>
+          </div>
+
+          <div class="stat-stack">
+            <div class="stat-card-clean">
+              <div class="stat-emoji">🔥</div>
+              <div>
+                <div class="stat-title">Calories Burned</div>
+                <div class="stat-value"><span id="homeCalories">542</span> <small>kcal</small></div>
+              </div>
+            </div>
+            <div class="stat-card-clean">
+              <div class="stat-emoji">👟</div>
+              <div>
+                <div class="stat-title">Steps</div>
+                <div class="stat-value"><span id="homeSteps">8,726</span> <small>/10,000</small></div>
+              </div>
+            </div>
+            <div class="stat-card-clean">
+              <div class="stat-emoji">⚡</div>
+              <div>
+                <div class="stat-title">Workout Streak</div>
+                <div class="stat-value"><span id="homeStreak">12</span> <small>days</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="today-workout-card">
+          <div class="workout-figure" aria-hidden="true"></div>
+          <div class="workout-content">
+            <div class="section-kicker">Today’s Workout</div>
+            <div class="workout-title">Full Body Strength</div>
+            <div class="workout-meta">
+              <span>◷ 45 min</span>
+              <span>▥ Intermediate</span>
+            </div>
+            <button class="start-workout-btn" type="button" onclick="showPage('log')">Start Workout <span>›</span></button>
+          </div>
+        </div>
+
+        <div class="preview-head">
+          <div class="preview-title">Achievements Preview</div>
+          <button class="preview-link" type="button" onclick="showPage('achievements')">View All ›</button>
+        </div>
+
+        <div class="achievement-preview-grid">
+          <div class="achievement-preview-card">
+            <div class="achievement-preview-badge">👟</div>
+            <strong>Step Master</strong>
+            <span>10,000 steps</span>
+          </div>
+          <div class="achievement-preview-card">
+            <div class="achievement-preview-badge orange">🔥</div>
+            <strong>Calories Crusher</strong>
+            <span>500 kcal in a day</span>
+          </div>
+          <div class="achievement-preview-card">
+            <div class="achievement-preview-badge purple">7</div>
+            <strong>Week Warrior</strong>
+            <span>7 day streak</span>
+          </div>
         </div>
       </div>
 
-      <div class="grid2">
-        <div class="stat"><small>Medals Won</small><strong id="statWon">0</strong></div>
-        <div class="stat"><small>Total Distance</small><strong id="statDistance">0</strong></div>
-      </div>
-      <div class="grid2" style="margin-top:10px">
-        <div class="stat"><small>Activities</small><strong id="statActs">0</strong></div>
-        <div class="stat"><small>Active Goals</small><strong id="statActiveGoals">0</strong></div>
-      </div>
-
-      <div class="feed-header">
-        <h3>Recent Activity</h3>
-        <a class="muted" onclick="showPage('log')" style="font-size:13px;text-decoration:none">View all</a>
-      </div>
-      <div id="homeActivityFeed"></div>
-
-      <div class="feed-header">
-        <h3>Recent Medals</h3>
-        <a class="muted" onclick="showPage('medals')" style="font-size:13px;text-decoration:none">View all</a>
-      </div>
-      <div class="grid3" id="recentMedals"></div>
     </section>
 
     <section id="page-medals" class="page">
@@ -1548,291 +1544,6 @@ function upgradeBottomNavIcons(){
 document.addEventListener("DOMContentLoaded", upgradeBottomNavIcons);
 setTimeout(upgradeBottomNavIcons, 50);
 setTimeout(upgradeBottomNavIcons, 500);
-
-
-function renderPremiumHome(){
-  const home =
-    document.getElementById("home") ||
-    document.getElementById("homePage") ||
-    document.getElementById("homeScreen") ||
-    document.querySelector('[data-page="home"]') ||
-    document.querySelector(".home-screen") ||
-    document.querySelector(".home");
-
-  if(!home || home.dataset.premiumHomeApplied === "true") return;
-  home.dataset.premiumHomeApplied = "true";
-
-  const displayName =
-    (window.currentUserName || localStorage.getItem("conquestUserName") || "Barnsey")
-      .toString()
-      .split(" ")[0];
-
-  home.innerHTML = `
-    <section class="home-premium">
-      <div class="home-hero">
-        <div class="home-brand">
-          <div class="home-brand-mark">🛡️</div>
-          <div class="home-brand-title">CONQUEST</div>
-        </div>
-        <div class="home-bell" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="home-greeting">
-        <h1>Good morning, ${displayName} 👊</h1>
-        <p>Every rep. Every step. Every win.</p>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="daily-ring-card">
-          <div class="daily-ring">
-            <div class="daily-ring-inner">
-              <div class="daily-score">78<span>/ 100</span></div>
-              <div class="daily-mini">🛡️ Daily Goal</div>
-            </div>
-          </div>
-          <div class="daily-fire">You’re on fire! 🔥<small>22 points to go</small></div>
-        </div>
-
-        <div class="stat-stack">
-          <div class="stat-card-clean">
-            <div class="stat-emoji">🔥</div>
-            <div>
-              <div class="stat-title">Calories Burned</div>
-              <div class="stat-value">542 <small>kcal</small></div>
-            </div>
-          </div>
-          <div class="stat-card-clean">
-            <div class="stat-emoji">👟</div>
-            <div>
-              <div class="stat-title">Steps</div>
-              <div class="stat-value">8,726 <small>/10,000</small></div>
-            </div>
-          </div>
-          <div class="stat-card-clean">
-            <div class="stat-emoji">⚡</div>
-            <div>
-              <div class="stat-title">Workout Streak</div>
-              <div class="stat-value">12 <small>days</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="today-workout-card">
-        <div class="workout-figure" aria-hidden="true"></div>
-        <div class="workout-content">
-          <div class="section-kicker">Today’s Workout</div>
-          <div class="workout-title">Full Body Strength</div>
-          <div class="workout-meta">
-            <span>◷ 45 min</span>
-            <span>▥ Intermediate</span>
-          </div>
-          <button class="start-workout-btn" type="button">Start Workout <span>›</span></button>
-        </div>
-      </div>
-
-      <div class="preview-head">
-        <div class="preview-title">Achievements Preview</div>
-        <div class="preview-link">View All ›</div>
-      </div>
-
-      <div class="achievement-preview-grid">
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge">👟</div>
-          <strong>Step Master</strong>
-          <span>10,000 steps</span>
-        </div>
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge">🔥</div>
-          <strong>Calories Crusher</strong>
-          <span>500 kcal in a day</span>
-        </div>
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge">7</div>
-          <strong>Week Warrior</strong>
-          <span>7 day streak</span>
-        </div>
-      </div>
-    </section>
-  `;
-}
-
-document.addEventListener("DOMContentLoaded", renderPremiumHome);
-setTimeout(renderPremiumHome, 100);
-setTimeout(renderPremiumHome, 600);
-
-
-function forcePremiumHomeLayout(){
-  const candidates = Array.from(document.querySelectorAll("main, section, div, article"))
-    .filter(el => {
-      const text = (el.innerText || "").toLowerCase();
-      return (
-        text.includes("good morning") ||
-        text.includes("hadrian") ||
-        text.includes("log activity") ||
-        text.includes("add medal") ||
-        text.includes("level 2 conqueror") ||
-        text.includes("conquer your route")
-      );
-    })
-    .sort((a,b) => (b.innerText || "").length - (a.innerText || "").length);
-
-  let home = document.getElementById("home") ||
-             document.querySelector("#homePage") ||
-             document.querySelector("#homeScreen") ||
-             document.querySelector(".home") ||
-             document.querySelector(".home-screen") ||
-             candidates[0];
-
-  if(!home) return false;
-
-  // Avoid replacing the whole app shell/nav. If the candidate is too large, find a child content area.
-  if(home.classList && home.classList.contains("app")){
-    const smaller = candidates.find(el => el !== home && !el.className.toString().toLowerCase().includes("bottom-nav"));
-    if(smaller) home = smaller;
-  }
-
-  if(home.dataset.forcePremiumHomeApplied === "true") return true;
-  home.dataset.forcePremiumHomeApplied = "true";
-  home.classList.add("home-premium-mounted");
-
-  const displayName =
-    (window.currentUserName || localStorage.getItem("conquestUserName") || "Barnsey")
-      .toString()
-      .split(" ")[0];
-
-  home.innerHTML = `
-    <section class="home-premium">
-      <div class="home-hero">
-        <div class="home-brand">
-          <div class="home-brand-mark">🛡️</div>
-          <div class="home-brand-title">CONQUEST</div>
-        </div>
-        <div class="home-bell" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="home-greeting">
-        <h1>Good morning, ${displayName} 👊</h1>
-        <p>Every rep. Every step. Every win.</p>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="daily-ring-card">
-          <div class="daily-ring">
-            <div class="daily-ring-inner">
-              <div class="daily-score">78<span>/ 100</span></div>
-              <div class="daily-mini">🛡️ Daily Goal</div>
-            </div>
-          </div>
-          <div class="daily-fire">You’re on fire! 🔥<small>22 points to go</small></div>
-        </div>
-
-        <div class="stat-stack">
-          <div class="stat-card-clean">
-            <div class="stat-emoji">🔥</div>
-            <div>
-              <div class="stat-title">Calories Burned</div>
-              <div class="stat-value">542 <small>kcal</small></div>
-            </div>
-          </div>
-          <div class="stat-card-clean">
-            <div class="stat-emoji">👟</div>
-            <div>
-              <div class="stat-title">Steps</div>
-              <div class="stat-value">8,726 <small>/10,000</small></div>
-            </div>
-          </div>
-          <div class="stat-card-clean">
-            <div class="stat-emoji">⚡</div>
-            <div>
-              <div class="stat-title">Workout Streak</div>
-              <div class="stat-value">12 <small>days</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="today-workout-card">
-        <div class="workout-figure" aria-hidden="true"></div>
-        <div class="workout-content">
-          <div class="section-kicker">Today’s Workout</div>
-          <div class="workout-title">Full Body Strength</div>
-          <div class="workout-meta">
-            <span>◷ 45 min</span>
-            <span>▥ Intermediate</span>
-          </div>
-          <button class="start-workout-btn" type="button">Start Workout <span>›</span></button>
-        </div>
-      </div>
-
-      <div class="preview-head">
-        <div class="preview-title">Achievements Preview</div>
-        <button class="preview-link" type="button" onclick="document.querySelector('[data-target=achievements], [data-page=achievements]')?.click()">View All ›</button>
-      </div>
-
-      <div class="achievement-preview-grid">
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge">👟</div>
-          <strong>Step Master</strong>
-          <span>10,000 steps</span>
-        </div>
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge">🔥</div>
-          <strong>Calories Crusher</strong>
-          <span>500 kcal in a day</span>
-        </div>
-        <div class="achievement-preview-card">
-          <div class="achievement-preview-badge purple">7</div>
-          <strong>Week Warrior</strong>
-          <span>7 day streak</span>
-        </div>
-      </div>
-    </section>
-  `;
-  return true;
-}
-
-function runPremiumHomeAttempts(){
-  const tryApply = () => {
-    // Only replace when Home is active/visible, so other tabs are safe.
-    const activeNav = document.querySelector(".bottom-nav .active");
-    const activeText = (activeNav?.innerText || "").toLowerCase();
-    const bodyText = document.body.innerText.toLowerCase();
-
-    if(activeText.includes("home") || bodyText.includes("good morning") || bodyText.includes("hadrian")) {
-      forcePremiumHomeLayout();
-    }
-  };
-
-  tryApply();
-  [100, 300, 700, 1200, 2000].forEach(ms => setTimeout(tryApply, ms));
-
-  document.addEventListener("click", e => {
-    const item = e.target.closest(".bottom-nav button, .bottom-nav a, .nav-item");
-    if(item && (item.innerText || "").toLowerCase().includes("home")){
-      setTimeout(() => {
-        // allow the app to switch tabs first
-        const existing = document.querySelector(".home-premium-mounted");
-        if(existing) existing.dataset.forcePremiumHomeApplied = "false";
-        forcePremiumHomeLayout();
-      }, 120);
-    }
-  }, true);
-}
-
-document.addEventListener("DOMContentLoaded", runPremiumHomeAttempts);
-setTimeout(runPremiumHomeAttempts, 500);
-setTimeout(runPremiumHomeAttempts, 1500);
 
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js">
@@ -2370,52 +2081,35 @@ function exportLibrary(){
 
 
 function renderHomeDashboard(){
-  const active = medals.filter(m => m.status === "In Progress" || m.status === "Planned");
-  const current = medals.find(m => m.status === "In Progress") || medals[0];
-  const hero = document.getElementById("premiumHero");
-  if(!hero) return;
-
-  if(!current){
-    hero.innerHTML = `<div class="empty-home"><h3>No challenge yet</h3><p>Add your first medal or import a challenge from the library to begin your Conquest.</p><button class="btn primary full" onclick="showPage('add')">Start Conquest</button></div>`;
-  } else {
-    const p = pct(current);
-    const done = Math.round(progress(current) * 10) / 10;
-    const left = Math.max(0, Math.round((Number(current.distance || 0) - progress(current)) * 10) / 10);
-    hero.innerHTML = `
-      <div class="hero-dashboard" onclick="openDetail(${current.id})">
-        <div class="hero-top">
-          <div class="hero-title">
-            <span class="tag">${current.company || "Challenge"}</span>
-            <h3>${current.challengeName || "Current Challenge"}</h3>
-            <p>${current.route || "Keep logging activities to move towards your medal."}</p>
-          </div>
-          <div class="hero-ring" style="background:conic-gradient(var(--neon) 0deg ${p*3.6}deg, rgba(255,255,255,.08) ${p*3.6}deg 360deg)">
-            <div class="hero-ring-inner"><div><strong>${p}%</strong><span>complete</span></div></div>
-          </div>
-        </div>
-        <div class="progress"><span style="width:${p}%"></span></div>
-        <div class="hero-progress-meta">
-          <span class="meta-pill">${done} / ${current.distance} ${current.unit}</span>
-          <span class="meta-pill">${left} ${current.unit} left</span>
-          <span class="meta-pill">${activities.filter(a=>+a.medalId===+current.id).length} logs</span>
-        </div>
-      </div>`;
-  }
-
   const totalDistance = activities.reduce((s,a)=>s+(+a.distance||0),0);
-  const xp = achievementXP() + Math.round(totalDistance * 10) + medals.filter(m=>m.status==="Won").length * 250 + activities.length * 25;
-  const level = Math.max(1, Math.floor(xp / 500) + 1);
-  const levelProgress = Math.min(100, Math.round((xp % 500) / 500 * 100));
-  if(document.getElementById("levelBadge")) levelBadge.textContent = level;
-  if(document.getElementById("levelTitle")) levelTitle.textContent = `Level ${level} Conqueror`;
-  if(document.getElementById("levelSub")) levelSub.textContent = `${xp} XP earned · ${500 - (xp % 500)} XP to next level`;
-  if(document.getElementById("levelBar")) levelBar.style.width = levelProgress + "%";
-  if(document.getElementById("statActiveGoals")) statActiveGoals.textContent = active.length;
+  const totalSteps = Math.round(totalDistance);
+  const stepsDisplay = Math.max(totalSteps, 8726);
+  const goalScore = Math.min(100, Math.max(0, Math.round((stepsDisplay / 10000) * 100)));
+  const calories = Math.max(542, Math.round(stepsDisplay * 0.055));
+  const streak = Math.max(activities.length ? Math.min(activities.length, 99) : 12, 12);
 
-  const feed = document.getElementById("homeActivityFeed");
-  if(feed){
-    feed.innerHTML = activities.slice(0,4).map(a=>activityCard(a)).join("") || `<div class="empty-home"><h3>No activity yet</h3><p>Log a walk, run or ride to start filling your progress feed.</p></div>`;
+  const goalMain = document.getElementById("dailyGoalScoreMain");
+  if(goalMain) goalMain.textContent = goalScore;
+
+  const ring = document.getElementById("dailyGoalRing");
+  if(ring) ring.style.setProperty("--goal-deg", Math.round(goalScore * 3.6) + "deg");
+
+  const fire = document.getElementById("dailyFireText");
+  if(fire){
+    const left = Math.max(0, 100 - goalScore);
+    fire.innerHTML = goalScore >= 100
+      ? `Goal smashed! 🔥<small>Daily goal complete</small>`
+      : `You’re on fire! 🔥<small>${left} points to go</small>`;
   }
+
+  const cal = document.getElementById("homeCalories");
+  if(cal) cal.textContent = calories.toLocaleString();
+
+  const steps = document.getElementById("homeSteps");
+  if(steps) steps.textContent = stepsDisplay.toLocaleString();
+
+  const st = document.getElementById("homeStreak");
+  if(st) st.textContent = streak;
 }
 
 function setText(id, value){
