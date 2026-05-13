@@ -1674,6 +1674,43 @@
       margin-top:0 !important;
     }
 
+  
+    /* Startup refresh fix: hide old top bar whenever Home page is active, even before JS sets body class */
+    body:has(#page-home.active) #mainApp > .top,
+    body:has(#page-home.active) .top,
+    body:has(#page-home.active) .app > .top,
+    body:has(#page-home.active) header.top,
+    body:has(#page-home.active) .app-header,
+    body:has(#page-home.active) .header,
+    body:has(#page-home.active) .brand-row,
+    body:has(#page-home.active) .topbar,
+    body:has(#page-home.active) .app-top,
+    body:has(#page-home.active) .main-top,
+    body:has(#page-home.active) .brandbar,
+    body:has(#page-home.active) .toolbar,
+    body:has(#page-home.active) #mainApp > *:has(#profileInitial),
+    body:has(#page-home.active) #mainApp > *:has(#cloudStatus),
+    body:has(#page-home.active) #mainApp > *:has([onclick*="library"]),
+    body:has(#page-home.active) #mainApp > *:has([onclick*="profile"]){
+      display:none !important;
+      visibility:hidden !important;
+      height:0 !important;
+      min-height:0 !important;
+      max-height:0 !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      pointer-events:none !important;
+      opacity:0 !important;
+    }
+
+    body:has(#page-home.active) #mainApp,
+    body:has(#page-home.active) .app,
+    body:has(#page-home.active) #page-home{
+      padding-top:0 !important;
+      margin-top:0 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -2162,6 +2199,26 @@ window.addEventListener('error', function(e){
 
 <script>
 
+/* Startup refresh fix: Home is active by default, so apply the Home class immediately */
+(function(){
+  document.documentElement.classList.add("conquest-starting-home");
+  function applyHomeStartupFix(){
+    const homePage = document.getElementById("page-home");
+    if(homePage && homePage.classList.contains("active")){
+      document.body.classList.add("home-exact-active");
+      if(typeof hardRemoveOldHomeHeader === "function") hardRemoveOldHomeHeader();
+      if(typeof finalNeonBottomNav === "function") finalNeonBottomNav();
+    }
+  }
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", applyHomeStartupFix);
+  }else{
+    applyHomeStartupFix();
+  }
+  [0,25,75,150,300,600,1000,1800].forEach(ms => setTimeout(applyHomeStartupFix, ms));
+})();
+
+
 // FIREBASE SETUP
 // Replace these values with your Firebase web app config from Firebase Console > Project Settings.
 const firebaseConfig = {
@@ -2561,7 +2618,7 @@ async function startApp(isNew=false){
  authStatus("Opening Conquest...");
  document.getElementById("authScreen").classList.remove("active");
  document.getElementById("mainApp").style.display="block";
- document.getElementById("bottomNav").style.display="grid";
+ document.getElementById("bottomNav").style.display="grid"; document.body.classList.add("home-exact-active"); setTimeout(()=>{ if(typeof hardRemoveOldHomeHeader==="function") hardRemoveOldHomeHeader(); if(typeof finalNeonBottomNav==="function") finalNeonBottomNav(); }, 0);
  try{
    await loadUserData();
  }catch(err){
