@@ -1236,6 +1236,7 @@
     }
 
   </style>
+<!-- Conquest Premium Home V2 -->
 </head>
 <body>
 
@@ -1664,6 +1665,174 @@ function renderPremiumHome(){
 document.addEventListener("DOMContentLoaded", renderPremiumHome);
 setTimeout(renderPremiumHome, 100);
 setTimeout(renderPremiumHome, 600);
+
+
+function forcePremiumHomeLayout(){
+  const candidates = Array.from(document.querySelectorAll("main, section, div, article"))
+    .filter(el => {
+      const text = (el.innerText || "").toLowerCase();
+      return (
+        text.includes("good morning") ||
+        text.includes("hadrian") ||
+        text.includes("log activity") ||
+        text.includes("add medal") ||
+        text.includes("level 2 conqueror") ||
+        text.includes("conquer your route")
+      );
+    })
+    .sort((a,b) => (b.innerText || "").length - (a.innerText || "").length);
+
+  let home = document.getElementById("home") ||
+             document.querySelector("#homePage") ||
+             document.querySelector("#homeScreen") ||
+             document.querySelector(".home") ||
+             document.querySelector(".home-screen") ||
+             candidates[0];
+
+  if(!home) return false;
+
+  // Avoid replacing the whole app shell/nav. If the candidate is too large, find a child content area.
+  if(home.classList && home.classList.contains("app")){
+    const smaller = candidates.find(el => el !== home && !el.className.toString().toLowerCase().includes("bottom-nav"));
+    if(smaller) home = smaller;
+  }
+
+  if(home.dataset.forcePremiumHomeApplied === "true") return true;
+  home.dataset.forcePremiumHomeApplied = "true";
+  home.classList.add("home-premium-mounted");
+
+  const displayName =
+    (window.currentUserName || localStorage.getItem("conquestUserName") || "Barnsey")
+      .toString()
+      .split(" ")[0];
+
+  home.innerHTML = `
+    <section class="home-premium">
+      <div class="home-hero">
+        <div class="home-brand">
+          <div class="home-brand-mark">🛡️</div>
+          <div class="home-brand-title">CONQUEST</div>
+        </div>
+        <div class="home-bell" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="home-greeting">
+        <h1>Good morning, ${displayName} 👊</h1>
+        <p>Every rep. Every step. Every win.</p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="daily-ring-card">
+          <div class="daily-ring">
+            <div class="daily-ring-inner">
+              <div class="daily-score">78<span>/ 100</span></div>
+              <div class="daily-mini">🛡️ Daily Goal</div>
+            </div>
+          </div>
+          <div class="daily-fire">You’re on fire! 🔥<small>22 points to go</small></div>
+        </div>
+
+        <div class="stat-stack">
+          <div class="stat-card-clean">
+            <div class="stat-emoji">🔥</div>
+            <div>
+              <div class="stat-title">Calories Burned</div>
+              <div class="stat-value">542 <small>kcal</small></div>
+            </div>
+          </div>
+          <div class="stat-card-clean">
+            <div class="stat-emoji">👟</div>
+            <div>
+              <div class="stat-title">Steps</div>
+              <div class="stat-value">8,726 <small>/10,000</small></div>
+            </div>
+          </div>
+          <div class="stat-card-clean">
+            <div class="stat-emoji">⚡</div>
+            <div>
+              <div class="stat-title">Workout Streak</div>
+              <div class="stat-value">12 <small>days</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="today-workout-card">
+        <div class="workout-figure" aria-hidden="true"></div>
+        <div class="workout-content">
+          <div class="section-kicker">Today’s Workout</div>
+          <div class="workout-title">Full Body Strength</div>
+          <div class="workout-meta">
+            <span>◷ 45 min</span>
+            <span>▥ Intermediate</span>
+          </div>
+          <button class="start-workout-btn" type="button">Start Workout <span>›</span></button>
+        </div>
+      </div>
+
+      <div class="preview-head">
+        <div class="preview-title">Achievements Preview</div>
+        <button class="preview-link" type="button" onclick="document.querySelector('[data-target=achievements], [data-page=achievements]')?.click()">View All ›</button>
+      </div>
+
+      <div class="achievement-preview-grid">
+        <div class="achievement-preview-card">
+          <div class="achievement-preview-badge">👟</div>
+          <strong>Step Master</strong>
+          <span>10,000 steps</span>
+        </div>
+        <div class="achievement-preview-card">
+          <div class="achievement-preview-badge">🔥</div>
+          <strong>Calories Crusher</strong>
+          <span>500 kcal in a day</span>
+        </div>
+        <div class="achievement-preview-card">
+          <div class="achievement-preview-badge purple">7</div>
+          <strong>Week Warrior</strong>
+          <span>7 day streak</span>
+        </div>
+      </div>
+    </section>
+  `;
+  return true;
+}
+
+function runPremiumHomeAttempts(){
+  const tryApply = () => {
+    // Only replace when Home is active/visible, so other tabs are safe.
+    const activeNav = document.querySelector(".bottom-nav .active");
+    const activeText = (activeNav?.innerText || "").toLowerCase();
+    const bodyText = document.body.innerText.toLowerCase();
+
+    if(activeText.includes("home") || bodyText.includes("good morning") || bodyText.includes("hadrian")) {
+      forcePremiumHomeLayout();
+    }
+  };
+
+  tryApply();
+  [100, 300, 700, 1200, 2000].forEach(ms => setTimeout(tryApply, ms));
+
+  document.addEventListener("click", e => {
+    const item = e.target.closest(".bottom-nav button, .bottom-nav a, .nav-item");
+    if(item && (item.innerText || "").toLowerCase().includes("home")){
+      setTimeout(() => {
+        // allow the app to switch tabs first
+        const existing = document.querySelector(".home-premium-mounted");
+        if(existing) existing.dataset.forcePremiumHomeApplied = "false";
+        forcePremiumHomeLayout();
+      }, 120);
+    }
+  }, true);
+}
+
+document.addEventListener("DOMContentLoaded", runPremiumHomeAttempts);
+setTimeout(runPremiumHomeAttempts, 500);
+setTimeout(runPremiumHomeAttempts, 1500);
 
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js">
