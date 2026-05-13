@@ -718,6 +718,88 @@
       background:radial-gradient(ellipse at top, rgba(220,255,120,.55), rgba(200,245,31,.20) 38%, transparent 72%) !important;
     }
 
+  
+    /* Natural trophy cabinet lamp lighting */
+    .cabinet-hotspot .shine{
+      position:absolute !important;
+      left:4% !important;
+      right:4% !important;
+      top:7% !important;
+      bottom:2% !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+      transition:.35s ease !important;
+      filter:blur(1.6px) !important;
+      mix-blend-mode:screen !important;
+      background:
+        radial-gradient(ellipse at 50% 13%, rgba(255,245,205,.88), rgba(255,235,170,.35) 9%, transparent 18%),
+        linear-gradient(180deg,
+          rgba(255,244,205,.72) 0%,
+          rgba(255,236,185,.40) 18%,
+          rgba(255,226,155,.22) 46%,
+          rgba(255,210,120,.10) 72%,
+          transparent 100%) !important;
+      clip-path:polygon(43% 0%, 57% 0%, 86% 100%, 14% 100%) !important;
+    }
+
+    .cabinet-hotspot .lamp-mask{
+      background:rgba(0,0,0,.22) !important;
+      box-shadow:0 8px 14px rgba(0,0,0,.24) !important;
+    }
+
+    .cabinet-hotspot .lamp-mask::after{
+      content:"";
+      position:absolute;
+      left:31%;
+      right:31%;
+      bottom:4%;
+      height:5px;
+      border-radius:999px;
+      background:rgba(255,244,205,0);
+      box-shadow:none;
+      transition:.35s ease;
+    }
+
+    .cabinet-hotspot.unlocked .lamp-mask{
+      background:rgba(0,0,0,.06) !important;
+      box-shadow:0 0 20px rgba(255,238,180,.42), 0 8px 18px rgba(0,0,0,.28) !important;
+    }
+
+    .cabinet-hotspot.unlocked .lamp-mask::after{
+      background:rgba(255,244,205,.92);
+      box-shadow:
+        0 0 8px rgba(255,244,205,.9),
+        0 0 18px rgba(255,226,150,.72),
+        0 0 32px rgba(255,210,120,.38);
+    }
+
+    .cabinet-hotspot.unlocked .shine{
+      opacity:1 !important;
+    }
+
+    .cabinet-hotspot.unlocked .trophy-mask{
+      opacity:0 !important;
+    }
+
+    .cabinet-hotspot .trophy-mask{
+      background:linear-gradient(180deg, rgba(5,9,14,.12), rgba(5,9,14,.18) 55%, rgba(5,9,14,.24)) !important;
+      backdrop-filter:grayscale(.38) brightness(.90) !important;
+    }
+
+    .cabinet-hotspot.unlocked::after{
+      content:"";
+      position:absolute;
+      left:8%;
+      right:8%;
+      bottom:4%;
+      height:18%;
+      background:radial-gradient(ellipse at center, rgba(255,228,150,.20), transparent 70%);
+      opacity:1;
+      filter:blur(1.5px);
+      pointer-events:none;
+      mix-blend-mode:screen;
+    }
+
   </style>
 </head>
 <body>
@@ -1198,7 +1280,7 @@ function renderStepAchievements(){
       trophyNote.textContent = `${trophyUnlockedCount} / ${STEP_TROPHIES.length} trophies lit`;
     }
     trophyWrap.innerHTML = STEP_TROPHIES.map((t, i)=>{
-      const done = (i === 3) ? true : isTrophyUnlocked(t); // TEST: force Platinum light on
+      const done = isTrophyUnlocked(t);
       const slotClass = `cabinet-hotspot hs${i+1} ${done ? "unlocked" : "locked"}`;
       const safeTitle = `${t.tier} — ${t.name}`;
       return `<div class="${slotClass}" aria-label="${safeTitle}" title="${safeTitle}">
