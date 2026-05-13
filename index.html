@@ -1579,6 +1579,42 @@
       padding-bottom:118px !important;
     }
 
+  
+    /* Remove old top Conquest header/icons from the new Home screen */
+    body.home-exact-active #mainApp > .top,
+    body.home-exact-active .top,
+    body.home-exact-active .app > .top,
+    body.home-exact-active header.top,
+    body.home-exact-active .app-header,
+    body.home-exact-active .header,
+    body.home-exact-active .brand-row{
+      display:none !important;
+      visibility:hidden !important;
+      height:0 !important;
+      min-height:0 !important;
+      max-height:0 !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      pointer-events:none !important;
+    }
+
+    body.home-exact-active #mainApp,
+    body.home-exact-active .app{
+      padding-top:0 !important;
+      margin-top:0 !important;
+    }
+
+    body.home-exact-active #page-home.exact-home-page{
+      margin-top:0 !important;
+      padding-top:0 !important;
+    }
+
+    body.home-exact-active .exact-home-shell{
+      margin-top:0 !important;
+      padding-top:0 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -2829,6 +2865,36 @@ setInterval(function(){
   if(text.includes("Achievements") && text.includes("Workouts") && !text.includes("Log") && !text.includes("🏠")) return;
   finalNeonBottomNav();
 }, 700);
+
+
+function removeOldHomeTopHeader(){
+  if(!document.body.classList.contains("home-exact-active")) return;
+  const selectors = [
+    "#mainApp > .top",
+    ".app > .top",
+    "header.top",
+    ".app-header",
+    ".header",
+    ".brand-row"
+  ];
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.setProperty("display", "none", "important");
+      el.style.setProperty("height", "0", "important");
+      el.style.setProperty("margin", "0", "important");
+      el.style.setProperty("padding", "0", "important");
+      el.style.setProperty("overflow", "hidden", "important");
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  setTimeout(removeOldHomeTopHeader, 50);
+  setTimeout(removeOldHomeTopHeader, 300);
+  setTimeout(removeOldHomeTopHeader, 1000);
+});
+
+setInterval(removeOldHomeTopHeader, 800);
 
 </script>
 </body>
