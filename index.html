@@ -1615,6 +1615,65 @@
       padding-top:0 !important;
     }
 
+  
+    /* HARD REMOVE old top header/chrome on Home */
+    body.home-exact-active #profileInitial,
+    body.home-exact-active #cloudStatus,
+    body.home-exact-active #cloudButton,
+    body.home-exact-active #libraryButton,
+    body.home-exact-active #profileButton,
+    body.home-exact-active [onclick*="showPage('library')"],
+    body.home-exact-active [onclick*='showPage("library")'],
+    body.home-exact-active [onclick*="showPage('profile')"].top-pill,
+    body.home-exact-active [onclick*='showPage("profile")'].top-pill{
+      display:none !important;
+      visibility:hidden !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    body.home-exact-active .top:has(#profileInitial),
+    body.home-exact-active .top:has([onclick*="library"]),
+    body.home-exact-active .top:has([onclick*="profile"]),
+    body.home-exact-active .top:has(.brand),
+    body.home-exact-active .topbar,
+    body.home-exact-active .app-top,
+    body.home-exact-active .main-top,
+    body.home-exact-active .brandbar,
+    body.home-exact-active .toolbar{
+      display:none !important;
+      visibility:hidden !important;
+      height:0 !important;
+      min-height:0 !important;
+      max-height:0 !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      pointer-events:none !important;
+      opacity:0 !important;
+    }
+
+    /* Backup: if the header does not have a class, hide the first child before page-home when Home is active */
+    body.home-exact-active #mainApp > *:has(#profileInitial),
+    body.home-exact-active #mainApp > *:has(#cloudStatus),
+    body.home-exact-active #mainApp > *:has([onclick*="library"]),
+    body.home-exact-active #mainApp > *:has([onclick*="profile"]){
+      display:none !important;
+      height:0 !important;
+      margin:0 !important;
+      padding:0 !important;
+      overflow:hidden !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    body.home-exact-active #mainApp,
+    body.home-exact-active .app,
+    body.home-exact-active #page-home{
+      padding-top:0 !important;
+      margin-top:0 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -2366,7 +2425,7 @@ function showPage(page,btn){
 
   document.body.classList.toggle("home-exact-active", page==="home");
   render();
-  setTimeout(finalNeonBottomNav, 10);
+  setTimeout(finalNeonBottomNav, 10); setTimeout(hardRemoveOldHomeHeader, 15);
 }
 function totalFor(id){return activities.filter(a=>+a.medalId===+id).reduce((s,a)=>s+(+a.distance||0),0)}
 function progress(m){return (+m.initial||0)+totalFor(m.id)}
@@ -2895,6 +2954,62 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 setInterval(removeOldHomeTopHeader, 800);
+
+
+function hardRemoveOldHomeHeader(){
+  if(!document.body.classList.contains("home-exact-active")) return;
+
+  const suspects = [
+    document.getElementById("profileInitial"),
+    document.getElementById("cloudStatus"),
+    document.getElementById("cloudButton"),
+    ...document.querySelectorAll("[onclick*='library'], [onclick*='profile'], .top-pill")
+  ].filter(Boolean);
+
+  suspects.forEach(el => {
+    let box = el;
+    for(let i=0; i<6 && box && box !== document.body; i++){
+      const txt = (box.innerText || "").trim();
+      const hasConquest = txt.includes("CONQUEST") || txt.includes("Conquest");
+      const hasOldButtons = txt.includes("B") || txt.includes("📚") || txt.includes("☁") || txt.includes("☁️");
+      const rect = box.getBoundingClientRect ? box.getBoundingClientRect() : {height:999};
+      if((hasConquest || hasOldButtons || box.className.toString().includes("top")) && rect.height <= 170){
+        box.style.setProperty("display", "none", "important");
+        box.style.setProperty("height", "0", "important");
+        box.style.setProperty("min-height", "0", "important");
+        box.style.setProperty("max-height", "0", "important");
+        box.style.setProperty("margin", "0", "important");
+        box.style.setProperty("padding", "0", "important");
+        box.style.setProperty("overflow", "hidden", "important");
+        box.style.setProperty("opacity", "0", "important");
+        box.style.setProperty("pointer-events", "none", "important");
+        break;
+      }
+      box = box.parentElement;
+    }
+  });
+
+  const main = document.getElementById("mainApp");
+  if(main){
+    Array.from(main.children).forEach(child => {
+      if(child.id === "page-home" || child.id === "bottomNav") return;
+      const txt = (child.innerText || "").trim();
+      const rect = child.getBoundingClientRect ? child.getBoundingClientRect() : {height:999};
+      if(rect.height <= 170 && (txt.includes("CONQUEST") || txt.includes("📚") || txt.includes("☁") || txt.includes("B"))){
+        child.style.setProperty("display", "none", "important");
+        child.style.setProperty("height", "0", "important");
+        child.style.setProperty("margin", "0", "important");
+        child.style.setProperty("padding", "0", "important");
+        child.style.setProperty("overflow", "hidden", "important");
+      }
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  [50,150,350,800,1500].forEach(ms => setTimeout(hardRemoveOldHomeHeader, ms));
+});
+setInterval(hardRemoveOldHomeHeader, 500);
 
 </script>
 </body>
