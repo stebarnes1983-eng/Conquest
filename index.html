@@ -1860,6 +1860,83 @@
     }
     #page-home.exact-home-page{padding-bottom:120px !important;}
 
+
+    /* FINAL: bottom nav icons match top icon style more closely */
+    #bottomNav{
+      position:fixed !important;
+      left:50% !important;
+      bottom:0 !important;
+      transform:translateX(-50%) !important;
+      width:min(100vw, 430px) !important;
+      height:96px !important;
+      display:grid !important;
+      grid-template-columns:repeat(5,1fr) !important;
+      align-items:center !important;
+      padding:8px 4px calc(8px + env(safe-area-inset-bottom)) !important;
+      background:linear-gradient(180deg, rgba(5,9,15,.94), rgba(1,3,9,.995)) !important;
+      border-top:1px solid rgba(255,255,255,.055) !important;
+      box-shadow:0 -10px 28px rgba(0,0,0,.44) !important;
+      backdrop-filter:blur(12px) !important;
+      z-index:99999 !important;
+    }
+    #bottomNav .nav-btn{
+      border:0 !important;
+      background:transparent !important;
+      color:#f4f6fb !important;
+      opacity:.92 !important;
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:center !important;
+      gap:5px !important;
+      height:80px !important;
+      padding:0 !important;
+      margin:0 !important;
+      border-radius:0 !important;
+      font-size:13px !important;
+      font-weight:400 !important;
+      letter-spacing:-.02em !important;
+      text-decoration:none !important;
+      appearance:none !important;
+      -webkit-appearance:none !important;
+      cursor:pointer !important;
+    }
+    #bottomNav .nav-btn.active{
+      color:#d8ff18 !important;
+      opacity:1 !important;
+      text-shadow:0 0 8px rgba(216,255,24,.18) !important;
+    }
+    #bottomNav .nav-icon,
+    #bottomNav svg{
+      width:29px !important;
+      height:29px !important;
+      display:block !important;
+      overflow:visible !important;
+      stroke:currentColor !important;
+      fill:none !important;
+      stroke-width:1.08 !important;
+      stroke-linecap:square !important;
+      stroke-linejoin:miter !important;
+      vector-effect:non-scaling-stroke !important;
+      shape-rendering:geometricPrecision !important;
+      filter:none !important;
+    }
+    #bottomNav .nav-btn.active .nav-icon,
+    #bottomNav .nav-btn.active svg{
+      color:#d8ff18 !important;
+      filter:drop-shadow(0 0 7px rgba(216,255,24,.22)) !important;
+    }
+    #bottomNav .nav-label{
+      display:block !important;
+      font-size:11.5px !important;
+      line-height:1 !important;
+      font-weight:400 !important;
+      letter-spacing:-.02em !important;
+      color:currentColor !important;
+      white-space:nowrap !important;
+    }
+    #page-home.exact-home-page{padding-bottom:120px !important;}
+
 </style>
 </head>
 <body>
@@ -3297,6 +3374,41 @@ window.ultraThinSharpBottomNav = ultraThinSharpBottomNav;
 document.addEventListener('DOMContentLoaded', function(){ [20,120,350,900,1800].forEach(ms => setTimeout(ultraThinSharpBottomNav, ms)); });
 setTimeout(ultraThinSharpBottomNav, 1200);
 setInterval(ultraThinSharpBottomNav, 1600);
+
+
+function exactTopStyleBottomNav(){
+  const nav = document.getElementById('bottomNav');
+  if(!nav) return;
+  const activePageEl = document.querySelector('.page.active');
+  const activePage = activePageEl && activePageEl.id ? activePageEl.id.replace('page-','') : 'home';
+  const items = [
+    { page:'home', label:'Home', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.7 10.6 12 4.1l8.3 6.5"></path><path d="M6.1 9.8v9.8h11.8V9.8"></path><path d="M10 19.6v-5.4h4v5.4"></path></svg>` },
+    { page:'log', label:'Workouts', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 10.4v3.2"></path><path d="M5.1 8.4v7.2"></path><path d="M7.6 7v10"></path><path d="M16.4 7v10"></path><path d="M18.9 8.4v7.2"></path><path d="M21.2 10.4v3.2"></path><path d="M7.6 12h8.8"></path></svg>` },
+    { page:'progress', label:'Progress', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 19.3h15.6"></path><path d="M7.1 19.3v-5.1"></path><path d="M12 19.3V8.8"></path><path d="M16.9 19.3v-7.4"></path><path d="M6.1 14.2h2"></path><path d="M11 8.8h2"></path><path d="M15.9 11.9h2"></path></svg>` },
+    { page:'achievements', label:'Achievements', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 4.6h7.6v3.2c0 2.3-1.7 4.2-3.8 4.2s-3.8-1.9-3.8-4.2V4.6Z"></path><path d="M8.2 6.5H5.4c0 1.8 1.2 3 2.8 3"></path><path d="M15.8 6.5h2.8c0 1.8-1.2 3-2.8 3"></path><path d="M12 12v4.8"></path><path d="M9 19.2h6"></path></svg>` },
+    { page:'profile', label:'Profile', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.4" r="3.1"></circle><path d="M5.2 19.6c1.4-3.1 3.8-4.6 6.8-4.6s5.4 1.5 6.8 4.6"></path></svg>` }
+  ];
+  nav.innerHTML = items.map(item => `
+    <button class="nav-btn ${item.page === activePage ? 'active' : ''}" data-page="${item.page}" type="button" aria-label="${item.label}">
+      ${item.icon}
+      <span class="nav-label">${item.label}</span>
+    </button>
+  `).join('');
+  nav.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const page = this.dataset.page;
+      if(typeof showPage === 'function') showPage(page, this);
+      setTimeout(exactTopStyleBottomNav, 50);
+      return false;
+    };
+  });
+}
+window.exactTopStyleBottomNav = exactTopStyleBottomNav;
+document.addEventListener('DOMContentLoaded', function(){ [40,150,400,900,1800].forEach(ms => setTimeout(exactTopStyleBottomNav, ms)); });
+setTimeout(exactTopStyleBottomNav, 1200);
+setInterval(exactTopStyleBottomNav, 1800);
 
 </script>
 </body>
