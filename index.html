@@ -1787,6 +1787,79 @@
       padding-bottom:118px !important;
     }
 
+
+    /* Final ultra-thin sharp outline bottom nav to match top icon style */
+    #bottomNav{
+      position:fixed !important;
+      left:50% !important;
+      bottom:0 !important;
+      transform:translateX(-50%) !important;
+      width:min(100vw, 430px) !important;
+      height:96px !important;
+      display:grid !important;
+      grid-template-columns:repeat(5,1fr) !important;
+      align-items:center !important;
+      padding:8px 4px calc(8px + env(safe-area-inset-bottom)) !important;
+      background:linear-gradient(180deg, rgba(5,9,15,.94), rgba(1,3,9,.995)) !important;
+      border-top:1px solid rgba(255,255,255,.06) !important;
+      border-radius:0 !important;
+      box-shadow:0 -14px 38px rgba(0,0,0,.46) !important;
+      backdrop-filter:blur(12px) !important;
+      z-index:99999 !important;
+    }
+    #bottomNav .nav-btn{
+      border:0 !important;
+      background:transparent !important;
+      color:rgba(245,248,255,.84) !important;
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:center !important;
+      gap:5px !important;
+      height:80px !important;
+      padding:0 !important;
+      margin:0 !important;
+      border-radius:0 !important;
+      font-size:13px !important;
+      font-weight:500 !important;
+      letter-spacing:-.025em !important;
+      text-decoration:none !important;
+      appearance:none !important;
+      -webkit-appearance:none !important;
+      cursor:pointer !important;
+    }
+    #bottomNav .nav-btn.active{
+      color:#d6ff10 !important;
+      text-shadow:0 0 10px rgba(214,255,16,.45) !important;
+    }
+    #bottomNav .nav-icon,
+    #bottomNav svg{
+      width:28px !important;
+      height:28px !important;
+      display:block !important;
+      overflow:visible !important;
+      stroke:currentColor !important;
+      fill:none !important;
+      stroke-width:1.35 !important;
+      stroke-linecap:round !important;
+      stroke-linejoin:round !important;
+      vector-effect:non-scaling-stroke !important;
+      filter:none !important;
+    }
+    #bottomNav .nav-btn.active .nav-icon,
+    #bottomNav .nav-btn.active svg{
+      color:#d6ff10 !important;
+      filter:drop-shadow(0 0 9px rgba(214,255,16,.5)) !important;
+    }
+    #bottomNav .nav-label{
+      display:block !important;
+      font-size:12px !important;
+      font-weight:500 !important;
+      color:currentColor !important;
+      white-space:nowrap !important;
+    }
+    #page-home.exact-home-page{padding-bottom:120px !important;}
+
 </style>
 </head>
 <body>
@@ -3185,6 +3258,45 @@ setInterval(function(){
     finalNewHomeNav();
   }
 }, 800);
+
+
+function ultraThinSharpBottomNav(){
+  const nav = document.getElementById("bottomNav");
+  if(!nav) return;
+
+  const activePageEl = document.querySelector('.page.active');
+  const activePage = activePageEl && activePageEl.id ? activePageEl.id.replace('page-','') : 'home';
+
+  const items = [
+    { page:'home', label:'Home', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.8 10.9 12 4.1l8.2 6.8"></path><path d="M5.8 10.3v9h12.4v-9"></path><path d="M9.3 19.3v-5.1h5.4v5.1"></path></svg>` },
+    { page:'log', label:'Workouts', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.9 10.2v3.6"></path><path d="M5.3 8.5v7"></path><path d="M8.2 7.1v9.8"></path><path d="M15.8 7.1v9.8"></path><path d="M18.7 8.5v7"></path><path d="M21.1 10.2v3.6"></path><path d="M8.2 12h7.6"></path></svg>` },
+    { page:'progress', label:'Progress', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.4 19.5h15.2"></path><path d="M7.2 19.5v-5.6"></path><path d="M11.9 19.5V8.9"></path><path d="M16.6 19.5v-8"></path><path d="M6.1 13.9h2.2"></path><path d="M10.8 8.9H13"></path><path d="M15.5 11.5h2.2"></path></svg>` },
+    { page:'achievements', label:'Achievements', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.2 4.8h7.6v3.4a3.8 3.8 0 0 1-7.6 0V4.8Z"></path><path d="M8.2 6.8H5.5a2.5 2.5 0 0 0 2.7 2.8"></path><path d="M15.8 6.8h2.7a2.5 2.5 0 0 1-2.7 2.8"></path><path d="M12 12.1v4.8"></path><path d="M9.1 19.2h5.8"></path><path d="M10 16.9h4"></path></svg>` },
+    { page:'profile', label:'Profile', icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.3" r="3.2"></circle><path d="M5 19.8a7 7 0 0 1 14 0"></path></svg>` }
+  ];
+
+  nav.innerHTML = items.map(item => `
+    <button class="nav-btn ${item.page === activePage ? 'active' : ''}" data-page="${item.page}" type="button" aria-label="${item.label}">
+      ${item.icon}
+      <span class="nav-label">${item.label}</span>
+    </button>
+  `).join('');
+
+  nav.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const page = this.dataset.page;
+      if(typeof showPage === 'function') showPage(page, this);
+      setTimeout(ultraThinSharpBottomNav, 40);
+      return false;
+    };
+  });
+}
+window.ultraThinSharpBottomNav = ultraThinSharpBottomNav;
+document.addEventListener('DOMContentLoaded', function(){ [20,120,350,900,1800].forEach(ms => setTimeout(ultraThinSharpBottomNav, ms)); });
+setTimeout(ultraThinSharpBottomNav, 1200);
+setInterval(ultraThinSharpBottomNav, 1600);
 
 </script>
 </body>
