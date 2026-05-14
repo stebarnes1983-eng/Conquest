@@ -1698,6 +1698,95 @@
       pointer-events:none !important;
     }
 
+
+    /* Match Stephen's new Home image bottom icons */
+    #bottomNav{
+      position:fixed !important;
+      left:50% !important;
+      bottom:0 !important;
+      transform:translateX(-50%) !important;
+      width:min(100vw, 430px) !important;
+      height:96px !important;
+      display:grid !important;
+      grid-template-columns:repeat(5, 1fr) !important;
+      align-items:center !important;
+      gap:0 !important;
+      padding:7px 5px calc(8px + env(safe-area-inset-bottom)) !important;
+      background:linear-gradient(180deg, rgba(4,8,13,.92), rgba(0,3,8,.99)) !important;
+      border-top:1px solid rgba(255,255,255,.08) !important;
+      border-left:0 !important;
+      border-right:0 !important;
+      border-bottom:0 !important;
+      border-radius:0 !important;
+      box-shadow:0 -18px 44px rgba(0,0,0,.55) !important;
+      backdrop-filter:blur(14px) !important;
+      z-index:99999 !important;
+      pointer-events:auto !important;
+      overflow:hidden !important;
+    }
+
+    #bottomNav .nav-btn{
+      appearance:none !important;
+      -webkit-appearance:none !important;
+      border:0 !important;
+      background:transparent !important;
+      color:rgba(245,248,255,.86) !important;
+      display:flex !important;
+      flex-direction:column !important;
+      align-items:center !important;
+      justify-content:center !important;
+      gap:5px !important;
+      height:82px !important;
+      min-width:0 !important;
+      padding:0 !important;
+      margin:0 !important;
+      border-radius:0 !important;
+      font-family:inherit !important;
+      font-size:13px !important;
+      line-height:1 !important;
+      font-weight:500 !important;
+      text-decoration:none !important;
+      letter-spacing:-.02em !important;
+      cursor:pointer !important;
+      pointer-events:auto !important;
+    }
+
+    #bottomNav .nav-btn.active{
+      color:#d6ff10 !important;
+      text-shadow:0 0 12px rgba(214,255,16,.55) !important;
+    }
+
+    #bottomNav .nav-icon,
+    #bottomNav svg{
+      width:30px !important;
+      height:30px !important;
+      display:block !important;
+      stroke:currentColor !important;
+      fill:none !important;
+      stroke-width:1.75 !important;
+      stroke-linecap:round !important;
+      stroke-linejoin:round !important;
+      filter:none !important;
+    }
+
+    #bottomNav .nav-btn.active .nav-icon,
+    #bottomNav .nav-btn.active svg{
+      color:#d6ff10 !important;
+      filter:drop-shadow(0 0 10px rgba(214,255,16,.55)) !important;
+    }
+
+    #bottomNav .nav-label{
+      display:block !important;
+      font-size:13px !important;
+      font-weight:500 !important;
+      color:currentColor !important;
+      white-space:nowrap !important;
+    }
+
+    #page-home.exact-home-page{
+      padding-bottom:118px !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2994,6 +3083,7 @@ document.addEventListener("DOMContentLoaded", function(){
 setInterval(safeHideOldTopBar, 1000);
 
 
+
 function finalNewHomeNav(){
   const nav = document.getElementById("bottomNav");
   if(!nav) return;
@@ -3008,27 +3098,57 @@ function finalNewHomeNav(){
     {
       page:"home",
       label:"Home",
-      icon:`<svg class="nav-icon home-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8"></path><path d="M5 10v10h14V10"></path><path d="M9 20v-6h6v6"></path></svg>`
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3.5 11.2 12 3.8l8.5 7.4"></path>
+        <path d="M5.4 10.4v9.3h13.2v-9.3"></path>
+        <path d="M9.2 19.7v-5.7h5.6v5.7"></path>
+      </svg>`
     },
     {
       page:"log",
       label:"Workouts",
-      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10"></path><path d="M18 7v10"></path><path d="M3 9v6"></path><path d="M21 9v6"></path><path d="M6 12h12"></path></svg>`
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.2 8.2v7.6"></path>
+        <path d="M9.2 6.8v10.4"></path>
+        <path d="M14.8 6.8v10.4"></path>
+        <path d="M17.8 8.2v7.6"></path>
+        <path d="M9.2 12h5.6"></path>
+        <path d="M3.8 10.1v3.8"></path>
+        <path d="M20.2 10.1v3.8"></path>
+      </svg>`
     },
     {
       page:"progress",
       label:"Progress",
-      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"></path><path d="M7 20V10"></path><path d="M12 20V5"></path><path d="M17 20v-8"></path></svg>`
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4.2 20h15.6"></path>
+        <path d="M7.3 20v-5.8"></path>
+        <path d="M12 20v-11.6"></path>
+        <path d="M16.7 20v-8.4"></path>
+        <path d="M7.3 14.2h1.9"></path>
+        <path d="M12 8.4h1.9"></path>
+        <path d="M16.7 11.6h1.9"></path>
+      </svg>`
     },
     {
       page:"achievements",
       label:"Achievements",
-      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"></path><path d="M7 7H4a3 3 0 0 0 3 3"></path><path d="M17 7h3a3 3 0 0 1-3 3"></path></svg>`
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 4.5h8v3.6a4 4 0 0 1-8 0V4.5Z"></path>
+        <path d="M8 7H5.1a2.7 2.7 0 0 0 2.9 3"></path>
+        <path d="M16 7h2.9a2.7 2.7 0 0 1-2.9 3"></path>
+        <path d="M12 12.2v5.1"></path>
+        <path d="M8.2 20h7.6"></path>
+        <path d="M9.6 17.3h4.8"></path>
+      </svg>`
     },
     {
       page:"profile",
       label:"Profile",
-      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>`
+      icon:`<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="7.5" r="3.5"></circle>
+        <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0"></path>
+      </svg>`
     }
   ];
 
@@ -3051,8 +3171,12 @@ function finalNewHomeNav(){
   });
 }
 
+window.finalNewHomeNav = finalNewHomeNav;
+window.rebuildConquestBottomNav = finalNewHomeNav;
+window.upgradeBottomNavIcons = finalNewHomeNav;
+
 document.addEventListener("DOMContentLoaded", function(){
-  [50,250,800,1400].forEach(ms => setTimeout(finalNewHomeNav, ms));
+  [20,100,300,800,1400].forEach(ms => setTimeout(finalNewHomeNav, ms));
 });
 setTimeout(finalNewHomeNav, 1200);
 setInterval(function(){
@@ -3060,7 +3184,7 @@ setInterval(function(){
   if(nav && (!nav.innerText.includes("Workouts") || nav.innerText.includes("Log"))){
     finalNewHomeNav();
   }
-}, 900);
+}, 800);
 
 </script>
 </body>
